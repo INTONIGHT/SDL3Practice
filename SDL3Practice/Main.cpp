@@ -1,6 +1,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include<SDL3_image/SDL_image.h>
+#include<SDL3/SDL_rect.h>
 //this sdl main is needed for the sdl to do its thing
 using namespace std;
 
@@ -40,6 +41,7 @@ int main(int argc, char* argv[]) {
 	}
 	//load game assets
 	SDL_Texture* idleTex = IMG_LoadTexture(state.renderer, "data/idle.png");
+	SDL_SetTextureScaleMode(idleTex, SDL_SCALEMODE_NEAREST);
 	//start the game loop
 	bool running = true;
 	while (running) {
@@ -54,9 +56,12 @@ int main(int argc, char* argv[]) {
 		}
 		//perform drawing
 		//starting simple this will draw the background white
-		SDL_SetRenderDrawColor(state.renderer, 255, 255, 255, 255);
+		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
 		SDL_RenderClear(state.renderer);
-		SDL_RenderTexture(state.renderer, idleTex, nullptr, nullptr);
+		//so they were using intialiazers which i dont have not sure how to update to latest version of C++
+		//but x,y,width height are whats being used here
+		SDL_FRect src{0,0,100,100};
+		SDL_RenderTexture(state.renderer, idleTex, &src, nullptr);
 		//swap buffer
 		SDL_RenderPresent(state.renderer);
 	}
