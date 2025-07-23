@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ext">
+      <UniqueIdentifier>{f4f420e5-c8c7-4652-9546-8e354b4591d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp">
@@ -24,15 +27,1299 @@
     <ClCompile Include="Timer.h">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\glm.cpp">
+      <Filter>ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CodingResources\glm-1.0.1-light\glm\glm.cppm">
+      <Filter>ext</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.md">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_common.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_common_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_exponential.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_exponential_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_geometric.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_geometric_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_integer.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_integer_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_matrix.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_matrix_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_packing.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_packing_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_trigonometric.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_trigonometric_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_vector_relational.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\func_vector_relational_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_half.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat2x2.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat2x3.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat2x4.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat3x2.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat3x3.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat3x4.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat4x2.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat4x3.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat4x4.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat4x4_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_quat.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_quat_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec1.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec2.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec3.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec4.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec4_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_clip_space.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_common.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_integer.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_projection.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_relational.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_transform.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_common.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_common_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_exponential.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_geometric.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_relational.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_transform.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_trigonometric.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_common.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_constants.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_integer.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_packing.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_reciprocal.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_relational.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_ulp.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_common.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_integer.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_packing.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_reciprocal.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_relational.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_ulp.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\bitfield.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\color_space.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\constants.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\epsilon.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\integer.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\matrix_access.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\matrix_inverse.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\matrix_transform.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\noise.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\packing.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\quaternion.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\quaternion_simd.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\random.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\round.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\type_precision.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\type_ptr.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\ulp.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\associated_min_max.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\bit.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\closest_point.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\color_encoding.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\color_space.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\color_space_YCoCg.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\common.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\compatibility.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\component_wise.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\dual_quaternion.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\easing.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\euler_angles.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\extend.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\extended_min_max.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\exterior_product.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\fast_exponential.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\fast_square_root.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\fast_trigonometry.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\float_notmalize.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\functions.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\gradient_paint.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\handed_coordinate_space.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\hash.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\integer.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\intersect.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\io.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\log_base.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_cross_product.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_decompose.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_factorisation.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_interpolation.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_major_storage.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_operation.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_query.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_transform_2d.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\mixed_product.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\norm.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\normal.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\normalize_dot.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\optimum_pow.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\orthonormalize.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\pca.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\perpendicular.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\polar_coordinates.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\projection.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\quaternion.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\raw_data.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\rotate_normalized_axis.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\rotate_vector.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\scalar_relational.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\spline.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\std_based_type.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\string_cast.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\texture.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\transform.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\transform2.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\type_aligned.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\type_trait.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\vector_angle.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\vector_query.inl">
+      <Filter>ext</Filter>
+    </None>
+    <None Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\wrap.inl">
+      <Filter>ext</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\common.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\compute_common.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\compute_vector_decl.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\compute_vector_relational.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\qualifier.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\setup.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_float.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_half.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat2x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat2x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat2x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat3x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat3x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat3x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat4x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat4x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_mat4x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_quat.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec1.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\type_vec4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\_features.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\_fixes.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\_noise.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\_swizzle.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\_swizzle_func.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\detail\_vectorize.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\exponential.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_clip_space.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_common.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double2x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double2x2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double2x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double2x3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double2x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double2x4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double3x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double3x2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double3x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double3x3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double3x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double3x4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double4x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double4x2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double4x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double4x3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double4x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_double4x4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float2x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float2x2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float2x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float2x3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float2x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float2x4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float3x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float3x2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float3x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float3x3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float3x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float3x4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float4x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float4x2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float4x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float4x3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float4x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_float4x4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int2x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int2x2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int2x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int2x3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int2x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int2x4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int3x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int3x2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int3x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int3x3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int3x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int3x4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int4x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int4x2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int4x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int4x3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int4x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_int4x4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_integer.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_projection.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_relational.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_transform.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint2x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint2x2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint2x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint2x3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint2x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint2x4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint3x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint3x2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint3x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint3x3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint3x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint3x4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint4x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint4x2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint4x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint4x3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint4x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\matrix_uint4x4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_common.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_double.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_double_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_exponential.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_float.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_float_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_geometric.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_relational.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_transform.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\quaternion_trigonometric.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_common.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_constants.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_integer.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_int_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_packing.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_reciprocal.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_relational.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_uint_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\scalar_ulp.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool1.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool1_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_bool4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_common.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double1.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double1_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_double4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float1.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float1_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float2_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float3_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_float4_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int1.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int1_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_int4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_integer.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_packing.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_reciprocal.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_relational.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint1.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint1_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint2_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint3_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_uint4_sized.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\vector_ulp.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext\_matrix_vectorize.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\ext.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\fwd.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\geometric.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\glm.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\bitfield.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\color_space.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\constants.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\epsilon.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\integer.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\matrix_access.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\matrix_integer.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\matrix_inverse.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\matrix_transform.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\noise.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\packing.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\quaternion.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\random.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\reciprocal.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\round.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\type_aligned.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\type_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\type_ptr.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\ulp.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtc\vec1.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\associated_min_max.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\bit.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\closest_point.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\color_encoding.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\color_space.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\color_space_YCoCg.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\common.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\compatibility.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\component_wise.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\dual_quaternion.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\easing.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\euler_angles.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\extend.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\extended_min_max.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\exterior_product.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\fast_exponential.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\fast_square_root.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\fast_trigonometry.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\functions.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\gradient_paint.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\handed_coordinate_space.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\hash.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\integer.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\intersect.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\io.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\log_base.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_cross_product.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_decompose.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_factorisation.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_interpolation.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_major_storage.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_operation.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_query.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\matrix_transform_2d.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\mixed_product.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\norm.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\normal.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\normalize_dot.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\number_precision.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\optimum_pow.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\orthonormalize.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\pca.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\perpendicular.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\polar_coordinates.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\projection.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\quaternion.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\range.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\raw_data.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\rotate_normalized_axis.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\rotate_vector.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\scalar_multiplication.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\scalar_relational.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\spline.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\std_based_type.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\string_cast.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\texture.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\transform.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\transform2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\type_aligned.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\type_trait.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\vector_angle.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\vector_query.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\vec_swizzle.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\gtx\wrap.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\integer.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat2x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat2x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat2x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat3x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat3x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat3x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat4x2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat4x3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\mat4x4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\matrix.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\packing.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\common.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\exponential.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\geometric.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\integer.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\matrix.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\neon.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\packing.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\platform.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\trigonometric.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\simd\vector_relational.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\trigonometric.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\vec2.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\vec3.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\vec4.hpp">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CodingResources\glm-1.0.1-light\glm\vector_relational.hpp">
+      <Filter>ext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

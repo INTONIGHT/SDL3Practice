@@ -6,3 +6,4 @@ and paste into the directory:SDL3Practice\SDL3Practice\SDL3Practice or wherver i
 For this project make sure you add the image to the same directory with the same network.
 For images: use SDL Image and download for Visual studio (vc)
 Follow steps for the SDL and the main difference for the linker inpout is it is SDL3_image.lib and then link it to the lib folder. same thing for downloading the .dll into the project
+For GLM https://github.com/g-truc/glm/releases/tag/1.0.1 download the zip folder then add a folder called ext to your project and copy paste it there
