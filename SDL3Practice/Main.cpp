@@ -11,7 +11,7 @@ struct SDLState {
 };
 
 void cleanup(SDLState &state);
-
+bool intialize(SDLState& state);
 
 
 int main(int argc, char* argv[]) {
@@ -24,9 +24,9 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	//create the window
-	int width = 600;
+	int width = 800;
 	int height = 600;
-	state.window = SDL_CreateWindow("SDL3 practice", width, height, 0);
+	state.window = SDL_CreateWindow("SDL3 practice", width, height, SDL_WINDOW_RESIZABLE);
 	if (!state.window) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", "Error initializing SDL3", state.window);
 		cleanup(state);
@@ -39,6 +39,11 @@ int main(int argc, char* argv[]) {
 		cleanup(state);
 		return 1;
 	}
+	//configure presentation
+	int logW = 640;
+	int logH = 320;
+	SDL_SetRenderLogicalPresentation(state.renderer, logW, logH, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+
 	//load game assets
 	SDL_Texture* idleTex = IMG_LoadTexture(state.renderer, "data/idle.png");
 	SDL_SetTextureScaleMode(idleTex, SDL_SCALEMODE_NEAREST);
@@ -52,15 +57,20 @@ int main(int argc, char* argv[]) {
 			case SDL_EVENT_QUIT:
 				running = false;
 				break;
+			case SDL_EVENT_WINDOW_RESIZED:
+				width = event.window.data1;
+				height = event.window.data2;
+				break;
 			}
 		}
 		//perform drawing
 		//starting simple this will draw the background white
-		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
+		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 50);
 		SDL_RenderClear(state.renderer);
 		//so they were using intialiazers which i dont have not sure how to update to latest version of C++
 		//but x,y,width height are whats being used here
-		SDL_FRect src{0,0,100,100};
+		SDL_FRect src{0,0,128,128 };
+		SDL_FRect dst{ 0,0,128,128 };
 		SDL_RenderTexture(state.renderer, idleTex, &src, nullptr);
 		//swap buffer
 		SDL_RenderPresent(state.renderer);
