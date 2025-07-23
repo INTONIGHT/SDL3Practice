@@ -33,10 +33,16 @@ int main(int argc, char* argv[]) {
 	const bool *keys = SDL_GetKeyboardState(nullptr);
 	float playerX = 150;
 	const float floor = state.logH;
+	uint64_t prevTime = SDL_GetTicks();
 
 	//start the game loop
 	bool running = true;
 	while (running) {
+		//64 bit unsited interger
+		//we need the previous time and current time so we can do some math
+		uint64_t nowTime = SDL_GetTicks();
+		//we need this as its in milliseconds to convert to seconds
+		float deltaTime = (nowTime - prevTime) / 1000.0f;
 		SDL_Event event{ 0 };
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -50,9 +56,19 @@ int main(int argc, char* argv[]) {
 				break;
 			}
 		}
-
-
-
+		//handle movement
+		float moveAmount = 0;
+		//this scancode is taking the input from the user ie A or d then doing something with it
+		//these two if statements are done deliberately in case the user holds a and d at the same time
+		//we want to move things according to time not frames otherwise every frame it will move this amount which is a lot
+		//code things according to time!!
+		if (keys[SDL_SCANCODE_A]) {
+			moveAmount -= 75.0f;
+		}
+		if (keys[SDL_SCANCODE_D]) {
+			moveAmount += 75.0f;
+		}
+		playerX += moveAmount * deltaTime;
 		//perform drawing
 		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
 		SDL_RenderClear(state.renderer);
@@ -64,6 +80,8 @@ int main(int argc, char* argv[]) {
 		SDL_RenderTexture(state.renderer, idleTex, &src, &dst);
 		//swap buffer
 		SDL_RenderPresent(state.renderer);
+		//dont necessarily need it here but makes it readable
+		prevTime = nowTime;
 	}
 
 	SDL_DestroyTexture(idleTex);
