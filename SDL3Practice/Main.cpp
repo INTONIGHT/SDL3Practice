@@ -2,6 +2,10 @@
 #include <SDL3/SDL_main.h>
 #include<SDL3_image/SDL_image.h>
 #include<SDL3/SDL_rect.h>
+#include<vector>
+#include<string>
+
+#include "Animation.h"
 //this sdl main is needed for the sdl to do its thing
 using namespace std;
 
@@ -13,8 +17,34 @@ struct SDLState {
 
 void cleanup(SDLState &state);
 bool initialize(SDLState& state);
+//this resources is helping both for setup as well as any other parts of the animation so the main can be neater
+struct Resources {
+	const int ANIM_PLAYER_IDLE = 0;
+	vector<Animation> playerAnims;
+	vector<SDL_Texture*> textures;
+	SDL_Texture* texIdle;
 
+	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
+		//"data/AnimationSheet_Character.png"
+		//needs to use this c.string
+		SDL_Texture *tex = IMG_LoadTexture(renderer, filepath.c_str());
+		SDL_SetTextureScaleMode(tex, SDL_SCALEMODE_NEAREST);
+		textures.push_back(tex);
+		return tex;
+	}
 
+	void load(SDLState& state) {
+		playerAnims.resize(5);
+		playerAnims[ANIM_PLAYER_IDLE] = Animation(8, 1.6f);
+		texIdle = loadTexture(state.renderer, "data/AnimationSheet_Character.png");
+
+	}
+	void unload() {
+		for (SDL_Texture* tex : textures) {
+			SDL_DestroyTexture(tex);
+		}
+	}
+};
 int main(int argc, char* argv[]) {
 //it needs this argc and argv as well as its pulling it from the command line
 //NB You can only have one main file in your project like this otherwise it gets a little confused :)
@@ -27,14 +57,14 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	//load game assets
-	SDL_Texture* idleTex = IMG_LoadTexture(state.renderer, "data/AnimationSheet_Character.png");
-	SDL_SetTextureScaleMode(idleTex, SDL_SCALEMODE_NEAREST);
+	Resources res;
+	res.load(state);
 	//setup game data
 	const bool *keys = SDL_GetKeyboardState(nullptr);
 	float playerX = 150;
 	const float floor = state.logH;
 	uint64_t prevTime = SDL_GetTicks();
-
+	bool flipHorizontal = false;
 	//start the game loop
 	bool running = true;
 	while (running) {
@@ -64,9 +94,11 @@ int main(int argc, char* argv[]) {
 		//code things according to time!!
 		if (keys[SDL_SCANCODE_A]) {
 			moveAmount -= 75.0f;
+			flipHorizontal = true;
 		}
 		if (keys[SDL_SCANCODE_D]) {
 			moveAmount += 75.0f;
+			flipHorizontal = false;
 		}
 		playerX += moveAmount * deltaTime;
 		//perform drawing
@@ -77,14 +109,20 @@ int main(int argc, char* argv[]) {
 		const int spriteSize = 32;
 		SDL_FRect src{ 0,0,spriteSize,spriteSize };
 		SDL_FRect dst{ playerX,floor - spriteSize ,spriteSize,spriteSize };
-		SDL_RenderTexture(state.renderer, idleTex, &src, &dst);
+		//how to render the first one
+		//SDL_RenderTexture(state.renderer, idleTex, &src, &dst);
+		//be able to flip the sprite
+		//takes an angle of rotation, centerpoint as well as direction you want to flip it
+		//using a ternary to determine when it should be flipped
+		SDL_RenderTextureRotated(state.renderer, res.texIdle, &src, &dst, 0, nullptr, 
+			(flipHorizontal) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
 		//swap buffer
 		SDL_RenderPresent(state.renderer);
 		//dont necessarily need it here but makes it readable
 		prevTime = nowTime;
 	}
 
-	SDL_DestroyTexture(idleTex);
+	res.unload();
 	cleanup(state);
 	return 0;
 }

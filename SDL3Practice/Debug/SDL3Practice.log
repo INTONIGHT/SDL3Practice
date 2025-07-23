@@ -1,1 +1,6 @@
-﻿  SDL3Practice.vcxproj -> C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\Debug\SDL3Practice.exe
+﻿  Main.cpp
+C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\Main.cpp(65,27): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\Main.cpp(65,20): warning C4244: 'initializing': conversion from 'int' to 'const float', possible loss of data
+  Timer.h
+  Generating Code...
+  SDL3Practice.vcxproj -> C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\Debug\SDL3Practice.exe
