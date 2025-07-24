@@ -1,0 +1,10 @@
+^C:\USERS\TYLER\DESKTOP\SDL3PRACTICE\SDL3PRACTICE\SDL3PRACTICE\BUILD\CMAKEFILES\DFF1A68263ACD7BD78B0B083F52A8E7B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/tyler/Desktop/SDL3Practice/SDL3Practice/SDL3Practice -BC:/Users/tyler/Desktop/SDL3Practice/SDL3Practice/SDL3Practice/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/tyler/Desktop/SDL3Practice/SDL3Practice/SDL3Practice/build/SDL3Practice.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

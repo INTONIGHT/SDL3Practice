@@ -1,0 +1,19 @@
+{
+	"version": 3,
+	"configurePresets": [
+		{
+			"name":"x86-debug-user",
+			"displayName": "x86 Debug (User)",
+			"inherits": "windows-base",
+			"architecture": {
+				"value" :"x86",
+				"strategy":"external"
+			},
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE":"Debug",
+				"CMAKE_PREFIX_PATH": "C:\Users\tyler\Desktop\CodingResources\SDL3-devel-3.2.18-VC\SDL3-3.2.18\ ",
+				"CMAKE_MODULE_PATH" :"C:\Users\tyler\Desktop\CodingResources\SDL3-devel-3.2.18-VC\SDL3-3.2.18\ "
+			}
+		}
+	]
+}

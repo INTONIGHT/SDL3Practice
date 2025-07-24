@@ -1,0 +1,3 @@
+C:/Users/tyler/Desktop/SDL3Practice/SDL3Practice/SDL3Practice/build/CMakeFiles/SDL3Practice.dir
+C:/Users/tyler/Desktop/SDL3Practice/SDL3Practice/SDL3Practice/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/tyler/Desktop/SDL3Practice/SDL3Practice/SDL3Practice/build/CMakeFiles/ZERO_CHECK.dir

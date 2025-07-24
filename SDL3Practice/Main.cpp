@@ -4,10 +4,13 @@
 #include<SDL3/SDL_rect.h>
 #include<vector>
 #include<string>
+#include<array>
 
-#include "Animation.h"
+#include "GameObject.h"
+#include <glm/glm.hpp>
 //this sdl main is needed for the sdl to do its thing
 using namespace std;
+using namespace glm;
 
 struct SDLState {
 	SDL_Window* window;
@@ -15,8 +18,19 @@ struct SDLState {
 	int width, height, logW, logH;
 };
 
-void cleanup(SDLState &state);
-bool initialize(SDLState& state);
+
+//structure for the gamestate
+const size_t LAYER_IDX_LEVEL = 0;
+const size_t LAYER_IDX_CHARACTERS = 1;
+struct GameState {
+	//ccreating an array of vectors of game objects as vectors allow some flexibility but arrays will be constant
+	array<vector<GameObject>, 2> layers;
+	int playerIndex;
+	GameState() {
+		playerIndex = 0; //WILL CHANGE WHEN WE LOAD MAPS
+
+	}
+};
 //this resources is helping both for setup as well as any other parts of the animation so the main can be neater
 struct Resources {
 	const int ANIM_PLAYER_IDLE = 0;
@@ -45,6 +59,11 @@ struct Resources {
 		}
 	}
 };
+
+void cleanup(SDLState& state);
+bool initialize(SDLState& state);
+void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime);
+
 int main(int argc, char* argv[]) {
 //it needs this argc and argv as well as its pulling it from the command line
 //NB You can only have one main file in your project like this otherwise it gets a little confused :)
@@ -60,11 +79,18 @@ int main(int argc, char* argv[]) {
 	Resources res;
 	res.load(state);
 	//setup game data
+	GameState gs;
+	//create our player object then pushing it into the layers
+	GameObject player;
+	player.type = ObjectType::player;
+	player.texture = res.texIdle;
+	player.animations = res.playerAnims;
+	player.currentAnimation = res.ANIM_PLAYER_IDLE;
+	gs.layers[LAYER_IDX_CHARACTERS].push_back(player);
+
 	const bool *keys = SDL_GetKeyboardState(nullptr);
-	float playerX = 150;
-	const float floor = state.logH;
 	uint64_t prevTime = SDL_GetTicks();
-	bool flipHorizontal = false;
+	
 	//start the game loop
 	bool running = true;
 	while (running) {
@@ -88,34 +114,18 @@ int main(int argc, char* argv[]) {
 		}
 		//handle movement
 		float moveAmount = 0;
-		//this scancode is taking the input from the user ie A or d then doing something with it
-		//these two if statements are done deliberately in case the user holds a and d at the same time
-		//we want to move things according to time not frames otherwise every frame it will move this amount which is a lot
-		//code things according to time!!
-		if (keys[SDL_SCANCODE_A]) {
-			moveAmount -= 75.0f;
-			flipHorizontal = true;
-		}
-		if (keys[SDL_SCANCODE_D]) {
-			moveAmount += 75.0f;
-			flipHorizontal = false;
-		}
-		playerX += moveAmount * deltaTime;
+		
 		//perform drawing
 		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
 		SDL_RenderClear(state.renderer);
 		//so they were using intialiazers which i dont have not sure how to update to latest version of C++
 		//but x,y,width height are whats being used here
-		const int spriteSize = 32;
-		SDL_FRect src{ 0,0,spriteSize,spriteSize };
-		SDL_FRect dst{ playerX,floor - spriteSize ,spriteSize,spriteSize };
-		//how to render the first one
-		//SDL_RenderTexture(state.renderer, idleTex, &src, &dst);
-		//be able to flip the sprite
-		//takes an angle of rotation, centerpoint as well as direction you want to flip it
-		//using a ternary to determine when it should be flipped
-		SDL_RenderTextureRotated(state.renderer, res.texIdle, &src, &dst, 0, nullptr, 
-			(flipHorizontal) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+		//draw all objects
+		for (auto& layer : gs.layers) {
+			for (GameObject& obj : layer) {
+				drawObject(state, gs, obj, deltaTime);
+			}
+		}
 		//swap buffer
 		SDL_RenderPresent(state.renderer);
 		//dont necessarily need it here but makes it readable
@@ -160,4 +170,17 @@ bool initialize(SDLState& state) {
 	
 	SDL_SetRenderLogicalPresentation(state.renderer, state.logW, state.logH, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	return initSuccess;
+}
+//taking these by reference
+void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime) {
+	const float spriteSize = 32;
+	SDL_FRect src{ 0,0,spriteSize,spriteSize };
+	SDL_FRect dst{ obj.position.x,obj.position.y,spriteSize,spriteSize };
+	//how to render the first one
+	//SDL_RenderTexture(state.renderer, idleTex, &src, &dst);
+	//be able to flip the sprite
+	//takes an angle of rotation, centerpoint as well as direction you want to flip it
+	//using a ternary to determine when it should be flipped
+	SDL_FlipMode flipMode = obj.direction == -1 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+	SDL_RenderTextureRotated(state.renderer, obj.texture, &src, &dst, 0, nullptr, flipMode);
 }
