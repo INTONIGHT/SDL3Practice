@@ -4,7 +4,9 @@
 #include "Animation.h"
 #include <SDL3/SDL.h>
 
-
+enum class PlayerState {
+	idle,running,jumping
+};
 enum class ObjectType {
 	player,level,enemy
 };

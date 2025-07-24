@@ -112,8 +112,16 @@ int main(int argc, char* argv[]) {
 				break;
 			}
 		}
-		//handle movement
-		float moveAmount = 0;
+		//update all objects
+		for (auto& layer : gs.layers) {
+			for (GameObject& obj : layer) {
+				if (obj.currentAnimation != -1) {
+					//this ties the core game loop to animations
+					obj.animations[obj.currentAnimation].step(deltaTime);
+				}
+			}
+		}
+		
 		
 		//perform drawing
 		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
@@ -174,7 +182,9 @@ bool initialize(SDLState& state) {
 //taking these by reference
 void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime) {
 	const float spriteSize = 32;
-	SDL_FRect src{ 0,0,spriteSize,spriteSize };
+	//sees if its animated if it does its going to try to grab the current frame
+	float srcX = obj.currentAnimation != -1 ? obj.animations[obj.currentAnimation].currentFrame() * spriteSize : 0.0f;
+	SDL_FRect src{ srcX,0,spriteSize,spriteSize };
 	SDL_FRect dst{ obj.position.x,obj.position.y,spriteSize,spriteSize };
 	//how to render the first one
 	//SDL_RenderTexture(state.renderer, idleTex, &src, &dst);
