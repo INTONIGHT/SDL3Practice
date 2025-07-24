@@ -7,19 +7,35 @@
 enum class PlayerState {
 	idle,running,jumping
 };
+struct PlayerData {
+	PlayerState state;
+	PlayerData() {
+		state = PlayerState::idle;
+	}
+};
+struct LevelData {};
+struct EnemyData{};
+//create a sturcture of overlapping data types inside of it
+union ObjectData {
+	PlayerData player;
+	LevelData level;
+	EnemyData enemy;
+};
 enum class ObjectType {
 	player,level,enemy
 };
 
 struct GameObject {
 	ObjectType type;
+	ObjectData data;
 	glm::vec2 position, velocity, acceleration;
 	float direction;
 	std::vector<Animation> animations;
 	int currentAnimation;
 	SDL_Texture *texture;
 
-	GameObject() {
+	GameObject(){
+		data.level = LevelData();
 		type = ObjectType::level;
 		direction = 1;
 		position = velocity = acceleration = glm::vec2(0);

@@ -1,2 +1,5 @@
 ﻿  Main.cpp
-  SDL3Practice.vcxproj -> C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\Debug\SDL3Practice.exe
+C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(37): error C2280: 'ObjectData::ObjectData(void)': attempting to reference a deleted function
+C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(23): message : compiler has generated 'ObjectData::ObjectData' here
+C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(23,1): message : 'ObjectData::ObjectData(void)': function was implicitly deleted because 'ObjectData' has a variant data member 'ObjectData::player' with a non-trivial default constructor
+C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(20): message : see declaration of 'ObjectData::player'
