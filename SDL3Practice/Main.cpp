@@ -36,9 +36,10 @@ struct GameState {
 //this resources is helping both for setup as well as any other parts of the animation so the main can be neater
 struct Resources {
 	const int ANIM_PLAYER_IDLE = 0;
+	const int ANIM_PLAYER_RUN = 1;
 	vector<Animation> playerAnims;
 	vector<SDL_Texture*> textures;
-	SDL_Texture* texIdle;
+	SDL_Texture* texIdle, *texRun;
 
 	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
 		//"data/AnimationSheet_Character.png"
@@ -52,7 +53,9 @@ struct Resources {
 	void load(SDLState& state) {
 		playerAnims.resize(5);
 		playerAnims[ANIM_PLAYER_IDLE] = Animation(8, 1.6f);
+		playerAnims[ANIM_PLAYER_RUN] = Animation(4, 0.5f);
 		texIdle = loadTexture(state.renderer, "data/AnimationSheet_Character.png");
+		texRun = loadTexture(state.renderer, "data/run.png");
 
 	}
 	void unload() {
@@ -235,6 +238,8 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 			//if the user is moving then the player state should be running
 			if (currentDirection) {
 				obj.data.player.state = PlayerState::running;
+				obj.texture = res.texRun;
+				obj.currentAnimation = res.ANIM_PLAYER_RUN;
 			}
 			else {
 				//decelerate
@@ -258,6 +263,8 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		case PlayerState::running: {
 			if (!currentDirection) {
 				obj.data.player.state = PlayerState::idle;
+				obj.texture = res.texIdle;
+				obj.currentAnimation = res.ANIM_PLAYER_IDLE;
 				}
 			break;
 			}
