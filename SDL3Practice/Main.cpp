@@ -27,6 +27,7 @@ const size_t LAYER_IDX_CHARACTERS = 1;
 const int MAP_ROWS = 5;
 const int MAP_COLS = 50;
 const int TILE_SIZE = 32;
+
 struct GameState {
 	//ccreating an array of vectors of game objects as vectors allow some flexibility but arrays will be constant
 	array<vector<GameObject>, 2> layers;
@@ -36,13 +37,14 @@ struct GameState {
 
 	}
 };
+
 //this resources is helping both for setup as well as any other parts of the animation so the main can be neater
 struct Resources {
 	const int ANIM_PLAYER_IDLE = 0;
 	const int ANIM_PLAYER_RUN = 1;
 	vector<Animation> playerAnims;
 	vector<SDL_Texture*> textures;
-	SDL_Texture* texIdle, *texRun;
+	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel;
 
 	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
 		//"data/AnimationSheet_Character.png"
@@ -57,9 +59,12 @@ struct Resources {
 		playerAnims.resize(5);
 		playerAnims[ANIM_PLAYER_IDLE] = Animation(8, 1.6f);
 		playerAnims[ANIM_PLAYER_RUN] = Animation(4, 0.5f);
-		texIdle = loadTexture(state.renderer, "data/AnimationSheet_Character.png");
+		texIdle = loadTexture(state.renderer, "data/idle.png");
 		texRun = loadTexture(state.renderer, "data/run.png");
-
+		texBrick = loadTexture(state.renderer, "data/tiles/brick.png");
+		texGrass = loadTexture(state.renderer, "data/tiles/grass.png");
+		texGround = loadTexture(state.renderer, "data/tiles/ground.png");
+		texPanel = loadTexture(state.renderer, "data/tiles/panel.png");
 	}
 	void unload() {
 		for (SDL_Texture* tex : textures) {
@@ -90,7 +95,7 @@ int main(int argc, char* argv[]) {
 	res.load(state);
 	//setup game data
 	GameState gs;
-	
+	createTiles(state, gs, res);
 
 	
 	uint64_t prevTime = SDL_GetTicks();
@@ -212,6 +217,8 @@ void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float del
 }
 
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime) {
+	//apply some gravity
+	
 	//if the object type is the player lets update the player
 	if (obj.type == ObjectType::player) {
 		float currentDirection = 0;
@@ -287,23 +294,40 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		*6 - Brick
 		*/
 		short map[MAP_COLS][MAP_COLS] = {
-			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		};
+		//creating a lambda function to take in the state and the texture to then be able to place tiles in the map
+		const auto createObject = [&state](int r, int c, SDL_Texture* tex, ObjectType type) {
+			GameObject o;
+			o.type = type;
+			//subtract tile height from the floor need to subtract to avoid being inverted.
+			o.position = vec2(c * TILE_SIZE,state.logH - (MAP_ROWS - r) * TILE_SIZE);
+			o.texture = tex;
+			return o;
 		};
 		//loop through rows and columns
 		for (int r = 0; r < MAP_ROWS; r++) {
 			for (int c = 0; c < MAP_COLS; c++) {
 				switch (map[r][c]) {
+						case 1: {//ground case
+							GameObject o = createObject(r, c, res.texGround, ObjectType::level);
+							gs.layers[LAYER_IDX_LEVEL].push_back(o);
+							break;
+						}
+						case 2: {//Panel case
+							GameObject o = createObject(r, c, res.texPanel, ObjectType::level);
+							gs.layers[LAYER_IDX_LEVEL].push_back(o);
+							break;
+						}
 						case 4: { //player case
 						//create our player object then pushing it into the layers
-						GameObject player;
-						player.type = ObjectType::player;
+						GameObject player = createObject(r,c,res.texIdle, ObjectType::player);
 						//set player data in the union to playerdata initialize it with the constructors
 						player.data.player = PlayerData();
-						player.texture = res.texIdle;
 						player.animations = res.playerAnims;
 						player.currentAnimation = res.ANIM_PLAYER_IDLE;
 						//arbitrary values

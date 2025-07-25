@@ -17,6 +17,4 @@ C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\float.h(328,5):
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\stdio.h(378,9): warning C5105: macro expansion producing 'defined' has undefined behavior
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\stdio.h(2437,9): warning C5105: macro expansion producing 'defined' has undefined behavior
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\ctype.h(241,5): warning C5105: macro expansion producing 'defined' has undefined behavior
-C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\Main.cpp(277,7): error C2601: 'createTiles': local function definitions are illegal
-C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\Main.cpp(214): message : this line contains a '{' which has not yet been matched
-C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\Main.cpp(214): fatal error C1075: '{': no matching token found
+  SDL3Practice.vcxproj -> C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\Debug\SDL3Practice.exe
