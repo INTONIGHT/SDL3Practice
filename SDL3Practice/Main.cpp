@@ -86,6 +86,8 @@ int main(int argc, char* argv[]) {
 	//create our player object then pushing it into the layers
 	GameObject player;
 	player.type = ObjectType::player;
+	//set player data in the union to playerdata initialize it with the constructors
+	player.data.player = PlayerData();
 	player.texture = res.texIdle;
 	player.animations = res.playerAnims;
 	player.currentAnimation = res.ANIM_PLAYER_IDLE;
@@ -233,7 +235,24 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 			//if the user is moving then the player state should be running
 			if (currentDirection) {
 				obj.data.player.state = PlayerState::running;
+			}
+			else {
+				//decelerate
+				if (obj.velocity.x) {
+					//if velocity decelerate negative and vice verse
+					//the factor will slow it down quickly
+					const float factor = obj.velocity.x > 0 ? -1.5f : 1.5f;
+					float amount = factor * obj.acceleration.x * deltaTime;
+					//complete stop if its greater
+					if (abs(obj.velocity.x) < abs(amount)) {
+						obj.velocity.x = 0;
+					}
+					else {
+						//will then add an inverse amount to the velocity
+						obj.velocity.x += amount;
+					}
 				}
+			}
 			break;
 			}
 		case PlayerState::running: {
@@ -245,6 +264,10 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		}
 		//add acceleration to velocity
 		obj.velocity += currentDirection * obj.acceleration * deltaTime;
+		//check to see if the absolute value of x is greater than maxspeed to then cap the speed
+		if (abs(obj.velocity.x) > obj.maxSpeedX) {
+			obj.velocity.x = currentDirection * obj.maxSpeedX;
+		}
 		//add velocity to positionm
 		obj.position += obj.velocity * deltaTime;
 
