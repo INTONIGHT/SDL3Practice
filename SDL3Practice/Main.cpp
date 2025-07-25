@@ -24,6 +24,9 @@ struct SDLState {
 //structure for the gamestate
 const size_t LAYER_IDX_LEVEL = 0;
 const size_t LAYER_IDX_CHARACTERS = 1;
+const int MAP_ROWS = 5;
+const int MAP_COLS = 50;
+const int TILE_SIZE = 32;
 struct GameState {
 	//ccreating an array of vectors of game objects as vectors allow some flexibility but arrays will be constant
 	array<vector<GameObject>, 2> layers;
@@ -69,6 +72,7 @@ void cleanup(SDLState& state);
 bool initialize(SDLState& state);
 void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime);
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime);
+void createTiles(const SDLState& state, GameState& gs, const Resources& res);
 
 int main(int argc, char* argv[]) {
 //it needs this argc and argv as well as its pulling it from the command line
@@ -86,18 +90,7 @@ int main(int argc, char* argv[]) {
 	res.load(state);
 	//setup game data
 	GameState gs;
-	//create our player object then pushing it into the layers
-	GameObject player;
-	player.type = ObjectType::player;
-	//set player data in the union to playerdata initialize it with the constructors
-	player.data.player = PlayerData();
-	player.texture = res.texIdle;
-	player.animations = res.playerAnims;
-	player.currentAnimation = res.ANIM_PLAYER_IDLE;
-	//arbitrary values
-	player.acceleration = glm::vec2(300, 0);
-	player.maxSpeedX = 100;
-	gs.layers[LAYER_IDX_CHARACTERS].push_back(player);
+	
 
 	
 	uint64_t prevTime = SDL_GetTicks();
@@ -217,6 +210,7 @@ void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float del
 	SDL_FlipMode flipMode = obj.direction == -1 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 	SDL_RenderTextureRotated(state.renderer, obj.texture, &src, &dst, 0, nullptr, flipMode);
 }
+
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime) {
 	//if the object type is the player lets update the player
 	if (obj.type == ObjectType::player) {
@@ -259,15 +253,15 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 				}
 			}
 			break;
-			}
+		}
 		case PlayerState::running: {
 			if (!currentDirection) {
 				obj.data.player.state = PlayerState::idle;
 				obj.texture = res.texIdle;
 				obj.currentAnimation = res.ANIM_PLAYER_IDLE;
-				}
-			break;
 			}
+			break;
+		}
 		}
 		//add acceleration to velocity
 		obj.velocity += currentDirection * obj.acceleration * deltaTime;
@@ -280,3 +274,47 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 
 	}
 }
+	void createTiles(const SDLState &state, GameState &gs, const Resources &res) 
+	{
+		//yes gotta do it this way but you can copy paste a lot :)
+		/*
+		*0 - Nothing
+		*1 - Ground
+		*2 - Panel
+		*3 - Enemy
+		*4 - Player
+		*5 - Grass
+		*6 - Brick
+		*/
+		short map[MAP_COLS][MAP_COLS] = {
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		};
+		//loop through rows and columns
+		for (int r = 0; r < MAP_ROWS; r++) {
+			for (int c = 0; c < MAP_COLS; c++) {
+				switch (map[r][c]) {
+						case 4: { //player case
+						//create our player object then pushing it into the layers
+						GameObject player;
+						player.type = ObjectType::player;
+						//set player data in the union to playerdata initialize it with the constructors
+						player.data.player = PlayerData();
+						player.texture = res.texIdle;
+						player.animations = res.playerAnims;
+						player.currentAnimation = res.ANIM_PLAYER_IDLE;
+						//arbitrary values
+						player.acceleration = glm::vec2(300, 0);
+						player.maxSpeedX = 100;
+						gs.layers[LAYER_IDX_CHARACTERS].push_back(player);
+
+						break;
+						}
+					}
+				}
+			}
+	
+	}
