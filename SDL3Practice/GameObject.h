@@ -28,16 +28,19 @@ enum class ObjectType {
 struct GameObject {
 	ObjectType type;
 	ObjectData data;
+	
 	glm::vec2 position, velocity, acceleration;
 	float direction;
+	float maxSpeedX;
 	std::vector<Animation> animations;
 	int currentAnimation;
 	SDL_Texture *texture;
 
-	GameObject(){
+	GameObject() : data{ .level = LevelData() } {
 		data.level = LevelData();
 		type = ObjectType::level;
 		direction = 1;
+		maxSpeedX = 0;
 		position = velocity = acceleration = glm::vec2(0);
 		currentAnimation = -1;
 		texture = nullptr;

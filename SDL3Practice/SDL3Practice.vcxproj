@@ -89,6 +89,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\tyler\Desktop\CodingResources\glm-1.0.1-light;C:\Users\tyler\Downloads\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\include;C:\Users\tyler\Downloads\SDL3-devel-3.2.18-VC\SDL3-3.2.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,6 +107,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\tyler\Desktop\CodingResources\glm-1.0.1-light;C:\Users\tyler\Downloads\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\include;C:\Users\tyler\Downloads\SDL3-devel-3.2.18-VC\SDL3-3.2.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,6 +125,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\tyler\Desktop\CodingResources\glm-1.0.1-light;C:\Users\tyler\Downloads\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\include;C:\Users\tyler\Downloads\SDL3-devel-3.2.18-VC\SDL3-3.2.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\tyler\Desktop\CodingResources\glm-1.0.1-light;C:\Users\tyler\Downloads\SDL3_image-devel-3.2.4-VC\SDL3_image-3.2.4\include;C:\Users\tyler\Downloads\SDL3-devel-3.2.18-VC\SDL3-3.2.18\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

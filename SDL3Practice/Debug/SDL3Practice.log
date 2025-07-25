@@ -1,5 +1,20 @@
-﻿  Main.cpp
-C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(37): error C2280: 'ObjectData::ObjectData(void)': attempting to reference a deleted function
-C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(23): message : compiler has generated 'ObjectData::ObjectData' here
-C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(23,1): message : 'ObjectData::ObjectData(void)': function was implicitly deleted because 'ObjectData' has a variant data member 'ObjectData::player' with a non-trivial default constructor
-C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\SDL3Practice\GameObject.h(20): message : see declaration of 'ObjectData::player'
+﻿  Scanning sources for module dependencies...
+  Main.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\corecrt_memory.h(76,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\corecrt_wstring.h(573,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\string.h(531,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\sys\stat.h(87,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\sys\stat.h(120,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\sys\stat.h(217,47): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\malloc.h(173,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\corecrt_math.h(44,13): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\corecrt_math.h(963,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\process.h(232,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\corecrt_search.h(188,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\stdlib.h(79,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\stdlib.h(1286,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\float.h(328,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\stdio.h(378,9): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\stdio.h(2437,9): warning C5105: macro expansion producing 'defined' has undefined behavior
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\ctype.h(241,5): warning C5105: macro expansion producing 'defined' has undefined behavior
+  SDL3Practice.vcxproj -> C:\Users\tyler\Desktop\SDL3Practice\SDL3Practice\Debug\SDL3Practice.exe
