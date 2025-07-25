@@ -78,6 +78,7 @@ bool initialize(SDLState& state);
 void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime);
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime);
 void createTiles(const SDLState& state, GameState& gs, const Resources& res);
+void checkCollision(const SDLState& state, GameState& gs, const Resources& res, GameObject& a, GameObject& b, float deltaTime);
 
 int main(int argc, char* argv[]) {
 //it needs this argc and argv as well as its pulling it from the command line
@@ -155,11 +156,13 @@ int main(int argc, char* argv[]) {
 	cleanup(state);
 	return 0;
 }
+
 void cleanup(SDLState &state) {
 	SDL_DestroyRenderer(state.renderer);
 	SDL_DestroyWindow(state.window);
 	SDL_Quit();
 }
+
 bool initialize(SDLState& state) {
 	bool initSuccess = true;
 	if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -190,6 +193,7 @@ bool initialize(SDLState& state) {
 	SDL_SetRenderLogicalPresentation(state.renderer, state.logW, state.logH, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	return initSuccess;
 }
+
 //taking these by reference
 void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime) {
 	const float spriteSize = 32;
@@ -217,7 +221,10 @@ void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float del
 }
 
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime) {
-	//apply some gravity
+	if (obj.dynamic) {
+		//apply some gravity
+		obj.velocity += vec2(0, 500) * deltaTime;
+	}
 	
 	//if the object type is the player lets update the player
 	if (obj.type == ObjectType::player) {
@@ -276,12 +283,85 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		if (abs(obj.velocity.x) > obj.maxSpeedX) {
 			obj.velocity.x = currentDirection * obj.maxSpeedX;
 		}
-		//add velocity to positionm
-		obj.position += obj.velocity * deltaTime;
+		
+	}
+	//add velocity to positionm
+	obj.position += obj.velocity * deltaTime;
 
+	//handle coillisions
+	//compare memory addresses then handle the collisions
+	//this approach isnt effecient at all but we will do it for now
+	//can optimize
+	for (auto& layer : gs.layers) {
+		for (GameObject& objB : layer) {
+			if (&obj != &objB) {
+				checkCollision(state, gs, res, obj, objB, deltaTime);
+			}
+		}
 	}
 }
-	void createTiles(const SDLState &state, GameState &gs, const Resources &res) 
+
+void collisionResponse(const SDLState& state, GameState& gs, const Resources& res, 
+	const SDL_FRect &rectA, const SDL_FRect& rectB, const SDL_FRect& rectC, 
+	GameObject& objA, GameObject& objB, float deltaTime) {
+
+	//first check the type of object A
+	if (objA.type == ObjectType::player) {
+		//object its colliding with
+		switch (objB.type) {
+		case ObjectType::level: {
+			if (rectC.w < rectC.h) {
+				//horizontal collision
+				//check if velocity is greater than 0
+				if (objA.velocity.x > 0) {
+					//object must be to the right
+					objA.position.x -= rectC.w;
+				}
+				else if(objA.velocity.x < 0){
+					objA.position.x += rectC.w;
+				}
+				//set velocity to 0  to stop movement
+				objA.velocity.x = 0;
+			}
+			else {
+				//vertical collision
+				if (objA.velocity.y > 0) {
+					objA.position.y -= rectC.h;//going down
+				}
+				else if (objA.velocity.y < 0){
+					objA.position.y += rectC.h;//going up
+				}
+				objA.velocity.y = 0;
+			}
+			break;
+			}
+		}
+	}
+}
+
+void checkCollision(const SDLState& state, GameState& gs, const Resources& res, GameObject& a, GameObject& b, float deltaTime) {
+	SDL_FRect rectA{
+		.x = a.position.x,
+		.y = a.position.y,
+		.w = TILE_SIZE,
+		.h = TILE_SIZE
+	};
+	//using some rectangles to determine the objects positions and a third for overlap
+	SDL_FRect rectB{
+		.x = b.position.x,
+		.y = b.position.y,
+		.w = TILE_SIZE,
+		.h = TILE_SIZE
+	};
+	SDL_FRect rectC{ 0 };
+	//pass in the first two and then the result gets passed to c
+	if (SDL_GetRectIntersectionFloat(&rectA, &rectB, &rectC)) {
+		//if its true its an intersection, respond accordingly
+		collisionResponse(state, gs, res, rectA, rectB, rectC, a, b,deltaTime);
+	}
+}
+
+void createTiles(const SDLState &state, GameState &gs, const Resources &res) 
 	{
 		//yes gotta do it this way but you can copy paste a lot :)
 		/*
@@ -333,6 +413,7 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 						//arbitrary values
 						player.acceleration = glm::vec2(300, 0);
 						player.maxSpeedX = 100;
+						player.dynamic = true;
 						gs.layers[LAYER_IDX_CHARACTERS].push_back(player);
 
 						break;
