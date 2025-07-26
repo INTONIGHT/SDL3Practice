@@ -36,8 +36,9 @@ struct GameObject {
 	int currentAnimation;
 	SDL_Texture *texture;
 	bool dynamic;
+	SDL_FRect collider;
 
-	GameObject() : data{ .level = LevelData() } {
+	GameObject() : data{ .level = LevelData() }, collider{ 0 } {
 		data.level = LevelData();
 		type = ObjectType::level;
 		direction = 1;

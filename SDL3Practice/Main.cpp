@@ -341,17 +341,17 @@ void collisionResponse(const SDLState& state, GameState& gs, const Resources& re
 
 void checkCollision(const SDLState& state, GameState& gs, const Resources& res, GameObject& a, GameObject& b, float deltaTime) {
 	SDL_FRect rectA{
-		.x = a.position.x,
-		.y = a.position.y,
-		.w = TILE_SIZE,
-		.h = TILE_SIZE
+		.x = a.position.x + a.collider.x,
+		.y = a.position.y + a.collider.y,
+		.w = a.collider.w,
+		.h = a.collider.h
 	};
 	//using some rectangles to determine the objects positions and a third for overlap
 	SDL_FRect rectB{
-		.x = b.position.x,
-		.y = b.position.y,
-		.w = TILE_SIZE,
-		.h = TILE_SIZE
+		.x = b.position.x + b.collider.x,
+		.y = b.position.y + b.collider.y,
+		.w = b.collider.w,
+		.h = b.collider.h
 	};
 	SDL_FRect rectC{ 0 };
 	//pass in the first two and then the result gets passed to c
@@ -374,7 +374,7 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 		*6 - Brick
 		*/
 		short map[MAP_COLS][MAP_COLS] = {
-			4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -387,6 +387,12 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 			//subtract tile height from the floor need to subtract to avoid being inverted.
 			o.position = vec2(c * TILE_SIZE,state.logH - (MAP_ROWS - r) * TILE_SIZE);
 			o.texture = tex;
+			o.collider = {
+				.x = 0,
+				.y = 0,
+				.w = TILE_SIZE,
+				.h = TILE_SIZE
+			};
 			return o;
 		};
 		//loop through rows and columns
@@ -414,6 +420,13 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 						player.acceleration = glm::vec2(300, 0);
 						player.maxSpeedX = 100;
 						player.dynamic = true;
+						//may need to play around with these values
+						player.collider = {
+							.x = 11, 
+							.y = 6,
+							.w = 10,
+							.h = 26
+						};
 						gs.layers[LAYER_IDX_CHARACTERS].push_back(player);
 
 						break;
