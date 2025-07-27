@@ -5,6 +5,7 @@
 #include<vector>
 #include<string>
 #include<array>
+#include<format>
 
 #include "GameObject.h"
 #include <glm/glm.hpp>
@@ -33,9 +34,12 @@ struct GameState {
 	array<vector<GameObject>, 2> layers;
 	int playerIndex;
 	GameState() {
-		playerIndex = 0; //WILL CHANGE WHEN WE LOAD MAPS
+		//represent none
+		playerIndex = -1; //WILL CHANGE WHEN WE LOAD MAPS
 
 	}
+
+	GameObject& player() { return layers[LAYER_IDX_CHARACTERS][playerIndex]; }
 };
 
 //this resources is helping both for setup as well as any other parts of the animation so the main can be neater
@@ -73,12 +77,14 @@ struct Resources {
 	}
 };
 
+//function decleration area
 void cleanup(SDLState& state);
 bool initialize(SDLState& state);
 void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime);
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime);
 void createTiles(const SDLState& state, GameState& gs, const Resources& res);
 void checkCollision(const SDLState& state, GameState& gs, const Resources& res, GameObject& a, GameObject& b, float deltaTime);
+void handleKeyInput(const SDLState& state, GameState& gs, GameObject& obj, SDL_Scancode key, bool keyDown);
 
 int main(int argc, char* argv[]) {
 //it needs this argc and argv as well as its pulling it from the command line
@@ -120,7 +126,15 @@ int main(int argc, char* argv[]) {
 				state.width = event.window.data1;
 				state.height = event.window.data2;
 				break;
-			}
+			case SDL_EVENT_KEY_DOWN:
+				handleKeyInput(state, gs, gs.player(), event.key.scancode, true);
+				break;
+			case SDL_EVENT_KEY_UP:
+				handleKeyInput(state, gs, gs.player(), event.key.scancode, false);
+				break;
+				
+		}
+			
 		}
 		//update all objects
 		for (auto& layer : gs.layers) {
@@ -146,6 +160,12 @@ int main(int argc, char* argv[]) {
 				drawObject(state, gs, obj, deltaTime);
 			}
 		}
+		//display some debug info
+		SDL_SetRenderDrawColor(state.renderer, 255, 255, 255, 255);
+		//need to cast to int then to string so 0,1,2 which will correspond to idle running jumping respectively
+		SDL_RenderDebugText(state.renderer, 5, 5, 
+			format("State: {}",static_cast<int>(gs.player().data.player.state)).c_str());
+
 		//swap buffer
 		SDL_RenderPresent(state.renderer);
 		//dont necessarily need it here but makes it readable
@@ -428,11 +448,33 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 							.h = 26
 						};
 						gs.layers[LAYER_IDX_CHARACTERS].push_back(player);
+						gs.playerIndex = gs.layers[LAYER_IDX_CHARACTERS].size() - 1;
 
 						break;
 						}
 					}
 				}
 			}
-	
+		//basically to check to make sure the player was actually created
+		assert(gs.playerIndex != -1);
 	}
+
+void handleKeyInput(const SDLState& state, GameState& gs, GameObject& obj, SDL_Scancode key, bool keyDown) {
+	const float JUMP_FORCE = -200.0f;
+	if (obj.type == ObjectType::player) {
+		switch (obj.data.player.state) {
+			case PlayerState::idle:
+				if (key == SDL_SCANCODE_K && keyDown) {
+					obj.data.player.state = PlayerState::jumping;
+					obj.velocity.y += JUMP_FORCE;
+				}
+				break;
+			case PlayerState::running:
+				if (key == SDL_SCANCODE_K && keyDown) {
+					obj.data.player.state = PlayerState::jumping;
+					obj.velocity.y += JUMP_FORCE;
+				}
+				break;
+		}
+	}
+}
