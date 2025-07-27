@@ -46,9 +46,10 @@ struct GameState {
 struct Resources {
 	const int ANIM_PLAYER_IDLE = 0;
 	const int ANIM_PLAYER_RUN = 1;
+	const int ANIM_PLAYER_SLIDE = 2;
 	vector<Animation> playerAnims;
 	vector<SDL_Texture*> textures;
-	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel;
+	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel, *texSlide;
 
 	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
 		//"data/AnimationSheet_Character.png"
@@ -63,8 +64,11 @@ struct Resources {
 		playerAnims.resize(5);
 		playerAnims[ANIM_PLAYER_IDLE] = Animation(8, 1.6f);
 		playerAnims[ANIM_PLAYER_RUN] = Animation(4, 0.5f);
+		playerAnims[ANIM_PLAYER_SLIDE] = Animation(1, 1.0f);
+
 		texIdle = loadTexture(state.renderer, "data/idle.png");
 		texRun = loadTexture(state.renderer, "data/run.png");
+		texSlide = loadTexture(state.renderer, "data/fall.png");
 		texBrick = loadTexture(state.renderer, "data/tiles/brick.png");
 		texGrass = loadTexture(state.renderer, "data/tiles/grass.png");
 		texGround = loadTexture(state.renderer, "data/tiles/ground.png");
@@ -266,9 +270,9 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 			//if the user is moving then the player state should be running
 			if (currentDirection) {
 				obj.data.player.state = PlayerState::running;
-				obj.texture = res.texRun;
-				obj.currentAnimation = res.ANIM_PLAYER_RUN;
+				
 			}
+			
 			else {
 				//decelerate
 				if (obj.velocity.x) {
@@ -286,16 +290,34 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 					}
 				}
 			}
+			obj.texture = res.texIdle;
+			obj.currentAnimation = res.ANIM_PLAYER_IDLE;
 			break;
 		}
+		//player state of running
 		case PlayerState::running: {
 			if (!currentDirection) {
+				//switching to idle state
 				obj.data.player.state = PlayerState::idle;
-				obj.texture = res.texIdle;
-				obj.currentAnimation = res.ANIM_PLAYER_IDLE;
+				
 			}
+			//moving in opposite direction of velocity, sliding
+			if (obj.velocity.x * obj.direction < 0 &&  obj.grounded) {
+				obj.texture = res.texSlide;
+				obj.currentAnimation = res.ANIM_PLAYER_SLIDE;
+			}
+			else {
+				obj.texture = res.texRun;
+				obj.currentAnimation = res.ANIM_PLAYER_RUN;
+			}
+			
 			break;
-		}
+			}
+		case PlayerState::jumping: {
+			obj.texture = res.texRun;
+			obj.currentAnimation = res.ANIM_PLAYER_RUN;
+			break;
+			}
 		}
 		//add acceleration to velocity
 		obj.velocity += currentDirection * obj.acceleration * deltaTime;
