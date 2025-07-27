@@ -312,11 +312,36 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 	//compare memory addresses then handle the collisions
 	//this approach isnt effecient at all but we will do it for now
 	//can optimize
+	bool foundGround = false;
 	for (auto& layer : gs.layers) {
 		for (GameObject& objB : layer) {
 			if (&obj != &objB) {
 				checkCollision(state, gs, res, obj, objB, deltaTime);
+				//grounded sensor
+				//when this hits any object on the ground we know the player has landed
+				SDL_FRect sensor{
+					.x = obj.position.x + obj.collider.x,
+					.y = obj.position.y + obj.collider.y + obj.collider.h,
+					.w = obj.collider.w,
+					.h = 1
+				};
+				SDL_FRect rectB{
+					.x = objB.position.x + objB.collider.x,
+					.y = objB.position.y + objB.collider.y,
+					.w = objB.collider.w,
+					.h = objB.collider.h
+				};
+				if (SDL_HasRectIntersectionFloat(&sensor, &rectB)) {
+					foundGround = true;
+				}
 			}
+		}
+	}
+	if (obj.grounded != foundGround) {
+		//switching grounded state
+		obj.grounded = foundGround;
+		if (foundGround && obj.type == ObjectType::player) {
+			obj.data.player.state = PlayerState::running;
 		}
 	}
 }
