@@ -34,6 +34,7 @@ struct GameState {
 	array<vector<GameObject>, 2> layers;
 	vector<GameObject> backgroundTiles;
 	vector<GameObject> foregroundTiles;
+	vector<GameObject> bullets;
 	int playerIndex;
 	SDL_FRect mapViewport;
 	float bg2Scroll, bg3Scroll, bg4Scroll;
@@ -59,9 +60,13 @@ struct Resources {
 	const int ANIM_PLAYER_RUN = 1;
 	const int ANIM_PLAYER_SLIDE = 2;
 	vector<Animation> playerAnims;
+	const int ANIM_BULLET_MOVING = 0;
+	const int ANIM_BULLET_HIT = 1;
+	vector<Animation> bulletAnims;
+
 	vector<SDL_Texture*> textures;
 	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel, *texSlide,
-		*texBg1, *texBg2, *texBg3, *texBg4;
+		*texBg1, *texBg2, *texBg3, *texBg4, *texBullet, *texBulletHit;
 
 	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
 		//"data/AnimationSheet_Character.png"
@@ -77,6 +82,9 @@ struct Resources {
 		playerAnims[ANIM_PLAYER_IDLE] = Animation(8, 1.6f);
 		playerAnims[ANIM_PLAYER_RUN] = Animation(4, 0.5f);
 		playerAnims[ANIM_PLAYER_SLIDE] = Animation(1, 1.0f);
+		bulletAnims.resize(2);
+		bulletAnims[ANIM_BULLET_MOVING] = Animation(4, 0.05f);
+		bulletAnims[ANIM_BULLET_HIT] = Animation(4, 0.15f);
 
 		texIdle = loadTexture(state.renderer, "data/idle.png");
 		texRun = loadTexture(state.renderer, "data/run.png");
@@ -89,6 +97,8 @@ struct Resources {
 		texBg2 = loadTexture(state.renderer, "data/background/bg_layer2.png");
 		texBg3 = loadTexture(state.renderer, "data/background/bg_layer3.png");
 		texBg4 = loadTexture(state.renderer, "data/background/bg_layer4.png");
+		texBullet = loadTexture(state.renderer, "data/bullet.png");
+		texBulletHit = loadTexture(state.renderer, "data/bullet_hit.png");
 
 	}
 	void unload() {
@@ -101,7 +111,7 @@ struct Resources {
 //function decleration area
 void cleanup(SDLState& state);
 bool initialize(SDLState& state);
-void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime);
+void drawObject(const SDLState& state, GameState& gs, GameObject& obj,float width, float height, float deltaTime);
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime);
 void createTiles(const SDLState& state, GameState& gs, const Resources& res);
 void checkCollision(const SDLState& state, GameState& gs, const Resources& res, GameObject& a, GameObject& b, float deltaTime);
@@ -169,6 +179,16 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
+
+		//update bullets
+		for (GameObject& bullet : gs.bullets) {
+			update(state, gs, res, bullet, deltaTime);
+			//update the animation
+			if (bullet.currentAnimation != -1) {
+				//this ties the core game loop to animations
+				bullet.animations[bullet.currentAnimation].step(deltaTime);
+			}
+		}
 		
 		//calculate viewport position
 		//generating an x cooredinmate based off the player so that we can center it on the player
@@ -203,10 +223,15 @@ int main(int argc, char* argv[]) {
 		//draw all objects
 		for (auto& layer : gs.layers) {
 			for (GameObject& obj : layer) {
-				drawObject(state, gs, obj, deltaTime);
+				drawObject(state, gs, obj,TILE_SIZE,TILE_SIZE, deltaTime);
 			}
 		}
 
+		//draw bullets
+		for (GameObject& bullet : gs.bullets) {
+			drawObject(state, gs, bullet, bullet.collider.w, bullet.collider.h, deltaTime);
+		}
+		
 		//draw foreground tiles
 		for (GameObject& obj : gs.foregroundTiles) {
 			SDL_FRect dst{
@@ -266,6 +291,10 @@ bool initialize(SDLState& state) {
 		initSuccess = false;
 		return 1;
 	}
+	//run the vsync always
+	//not burn through cpu as much
+	SDL_SetRenderVSync(state.renderer, 1);
+
 	//configure presentation
 	
 	SDL_SetRenderLogicalPresentation(state.renderer, state.logW, state.logH, SDL_LOGICAL_PRESENTATION_LETTERBOX);
@@ -273,22 +302,23 @@ bool initialize(SDLState& state) {
 }
 
 //taking these by reference
-void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float deltaTime) {
-	const float spriteSize = 32;
+void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float width,float height, float deltaTime) {
+	
 	//sees if its animated if it does its going to try to grab the current frame
-	float srcX = obj.currentAnimation != -1 ? obj.animations[obj.currentAnimation].currentFrame() * spriteSize : 0.0f;
+	float srcX = obj.currentAnimation != -1 ? obj.animations[obj.currentAnimation].currentFrame() * width : 0.0f;
 	//you can directly instantiate ie srcx,0,sprite size within rect but this looks cleaner
 	SDL_FRect src{ 
 		.x = srcX,
 		.y = 0,
-		.w = spriteSize,
-		.h = spriteSize 
+		.w = width,
+		.h = height 
 	};
 	SDL_FRect dst{ 
 		.x = obj.position.x - gs.mapViewport.x,
 		.y = obj.position.y,
-		.w = spriteSize,
-		.h = spriteSize };
+		.w = width,
+		.h = height 
+	};
 	//how to render the first one
 	//SDL_RenderTexture(state.renderer, idleTex, &src, &dst);
 	//be able to flip the sprite
@@ -317,6 +347,8 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		if (currentDirection) {
 			obj.direction = currentDirection;
 		}
+		Timer& weaponTimer = obj.data.player.weaponTimer;
+		weaponTimer.step(deltaTime);
 		//player specific data we take the object the data within that and access the player then access the player state
 		switch (obj.data.player.state) {
 			//for when the player is idle
@@ -343,6 +375,35 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 						obj.velocity.x += amount;
 					}
 				}
+			}
+			if (state.keys[SDL_SCANCODE_J]) {
+				if (weaponTimer.isTimeout()) {
+					weaponTimer.reset();
+				}
+				//spawn some bullets
+				GameObject bullet;
+				bullet.type = ObjectType::bullet;
+				bullet.direction = gs.player().direction;
+				bullet.texture = res.texBullet;
+				bullet.currentAnimation = res.ANIM_BULLET_MOVING;
+				bullet.collider = SDL_FRect{
+					.x = 0,
+					.y = 0,
+					.w = static_cast<float>(res.texBullet->h),
+					.h = static_cast<float>(res.texBullet->h)
+				};
+				bullet.velocity = glm::vec2(obj.velocity.x + 600.0f * obj.direction, 0);
+				bullet.animations = res.bulletAnims;
+				//adjust bullet start position
+				const float left = 4;
+				const float right = 24;
+				const float t = (obj.direction + 1) / 2.0f; //results in a value of 0 or 1
+				const float xOffset = left + right * t; //LERP equation
+				bullet.position = vec2(
+					obj.position.x + xOffset, 
+					obj.position.y + TILE_SIZE / 2 + 1
+				);
+				gs.bullets.push_back(bullet);
 			}
 			obj.texture = res.texIdle;
 			obj.currentAnimation = res.ANIM_PLAYER_IDLE;

@@ -7,22 +7,37 @@
 enum class PlayerState {
 	idle,running,jumping
 };
+
+enum class BulletState {
+	moving, colliding, inactive
+};
+
 struct PlayerData {
 	PlayerState state;
-	PlayerData() {
+	Timer weaponTimer;
+	PlayerData(): weaponTimer(0.1f){
 		state = PlayerState::idle;
 	}
 };
+
 struct LevelData {};
+
 struct EnemyData{};
+
+struct BulletData {
+	BulletState state;
+	BulletData() : state(BulletState::moving){}
+};
+
 //create a sturcture of overlapping data types inside of it
 union ObjectData {
 	PlayerData player;
 	LevelData level;
 	EnemyData enemy;
+	BulletData bullet;
 };
 enum class ObjectType {
-	player,level,enemy
+	player,level,enemy, bullet
 };
 
 struct GameObject {
