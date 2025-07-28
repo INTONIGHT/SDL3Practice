@@ -34,6 +34,7 @@ struct GameState {
 	array<vector<GameObject>, 2> layers;
 	int playerIndex;
 	SDL_FRect mapViewport;
+	float bg2Scroll, bg3Scroll, bg4Scroll;
 
 	GameState(const SDLState &state) {
 		//represent none
@@ -44,6 +45,7 @@ struct GameState {
 			.w = static_cast<float>(state.logW),
 			.h = static_cast<float>(state.logH)
 		};
+		bg2Scroll = bg3Scroll = bg4Scroll = 0;
 	}
 
 	GameObject& player() { return layers[LAYER_IDX_CHARACTERS][playerIndex]; }
@@ -56,7 +58,8 @@ struct Resources {
 	const int ANIM_PLAYER_SLIDE = 2;
 	vector<Animation> playerAnims;
 	vector<SDL_Texture*> textures;
-	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel, *texSlide;
+	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel, *texSlide,
+		*texBg1, *texBg2, *texBg3, *texBg4;
 
 	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
 		//"data/AnimationSheet_Character.png"
@@ -80,6 +83,11 @@ struct Resources {
 		texGrass = loadTexture(state.renderer, "data/tiles/grass.png");
 		texGround = loadTexture(state.renderer, "data/tiles/ground.png");
 		texPanel = loadTexture(state.renderer, "data/tiles/panel.png");
+		texBg1 = loadTexture(state.renderer, "data/background/bg_layer1.png");
+		texBg2 = loadTexture(state.renderer, "data/background/bg_layer2.png");
+		texBg3 = loadTexture(state.renderer, "data/background/bg_layer3.png");
+		texBg4 = loadTexture(state.renderer, "data/background/bg_layer4.png");
+
 	}
 	void unload() {
 		for (SDL_Texture* tex : textures) {
@@ -96,6 +104,7 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 void createTiles(const SDLState& state, GameState& gs, const Resources& res);
 void checkCollision(const SDLState& state, GameState& gs, const Resources& res, GameObject& a, GameObject& b, float deltaTime);
 void handleKeyInput(const SDLState& state, GameState& gs, GameObject& obj, SDL_Scancode key, bool keyDown);
+void drawParralaxBackground(SDL_Renderer* renderer, SDL_Texture* texture, float xVelocity, float& scrollPos, float scrollFactor, float deltaTime);
 
 int main(int argc, char* argv[]) {
 //it needs this argc and argv as well as its pulling it from the command line
@@ -166,6 +175,13 @@ int main(int argc, char* argv[]) {
 		//perform drawing
 		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
 		SDL_RenderClear(state.renderer);
+
+		//draw Background images
+		float scrollFactor = 0.3f;
+		SDL_RenderTexture(state.renderer, res.texBg1, nullptr, nullptr);
+		drawParralaxBackground(state.renderer, res.texBg4, gs.player().velocity.x, gs.bg4Scroll, scrollFactor / 4, deltaTime);
+		drawParralaxBackground(state.renderer, res.texBg3, gs.player().velocity.x, gs.bg3Scroll, scrollFactor / 2, deltaTime);
+		drawParralaxBackground(state.renderer, res.texBg2, gs.player().velocity.x, gs.bg2Scroll, scrollFactor, deltaTime);
 		//so they were using intialiazers which i dont have not sure how to update to latest version of C++
 		//but x,y,width height are whats being used here
 		//draw all objects
@@ -534,4 +550,22 @@ void handleKeyInput(const SDLState& state, GameState& gs, GameObject& obj, SDL_S
 				break;
 		}
 	}
+}
+
+void drawParralaxBackground(SDL_Renderer* renderer, SDL_Texture* texture, float xVelocity, float& scrollPos, float scrollFactor, float deltaTime) {
+	scrollPos -= xVelocity * scrollFactor * deltaTime;
+	//moves the scroll inverse to player
+	//if the scroll position is greater than the width
+	if (scrollPos <= -texture->w) {
+		scrollPos = 0;
+	}
+	
+	SDL_FRect dst{
+		.x = scrollPos,
+		.y = 30,
+		.w = texture->w * 2.0f,//setting to ortignal  textures width times 2 so it can scroll
+		.h = static_cast<float>(texture->h)
+	};
+	//will allow us to draw the texture twice so we dont need to call it and then it will alays scroll back without user noticing
+	SDL_RenderTextureTiled(renderer, texture, nullptr, 1, &dst);
 }
