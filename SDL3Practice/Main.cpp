@@ -32,6 +32,8 @@ const int TILE_SIZE = 32;
 struct GameState {
 	//ccreating an array of vectors of game objects as vectors allow some flexibility but arrays will be constant
 	array<vector<GameObject>, 2> layers;
+	vector<GameObject> backgroundTiles;
+	vector<GameObject> foregroundTiles;
 	int playerIndex;
 	SDL_FRect mapViewport;
 	float bg2Scroll, bg3Scroll, bg4Scroll;
@@ -182,6 +184,20 @@ int main(int argc, char* argv[]) {
 		drawParralaxBackground(state.renderer, res.texBg4, gs.player().velocity.x, gs.bg4Scroll, scrollFactor / 4, deltaTime);
 		drawParralaxBackground(state.renderer, res.texBg3, gs.player().velocity.x, gs.bg3Scroll, scrollFactor / 2, deltaTime);
 		drawParralaxBackground(state.renderer, res.texBg2, gs.player().velocity.x, gs.bg2Scroll, scrollFactor, deltaTime);
+
+		//draw background tiles
+		for (GameObject& obj : gs.backgroundTiles) {
+			SDL_FRect dst{
+				.x = obj.position.x - gs.mapViewport.x,
+				.y = obj.position.y,
+				.w = static_cast<float>(obj.texture->w),
+				.h = static_cast<float>(obj.texture->h)
+			};
+			SDL_RenderTexture(state.renderer, obj.texture, nullptr, &dst);
+		 }
+
+		
+		
 		//so they were using intialiazers which i dont have not sure how to update to latest version of C++
 		//but x,y,width height are whats being used here
 		//draw all objects
@@ -190,6 +206,18 @@ int main(int argc, char* argv[]) {
 				drawObject(state, gs, obj, deltaTime);
 			}
 		}
+
+		//draw foreground tiles
+		for (GameObject& obj : gs.foregroundTiles) {
+			SDL_FRect dst{
+				.x = obj.position.x - gs.mapViewport.x,
+				.y = obj.position.y,
+				.w = static_cast<float>(obj.texture->w),
+				.h = static_cast<float>(obj.texture->h)
+			};
+			SDL_RenderTexture(state.renderer, obj.texture, nullptr, &dst);
+		}
+
 		//display some debug info
 		SDL_SetRenderDrawColor(state.renderer, 255, 255, 255, 255);
 		//need to cast to int then to string so 0,1,2 which will correspond to idle running jumping respectively
@@ -467,44 +495,59 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 		*6 - Brick
 		*/
 		short map[MAP_COLS][MAP_COLS] = {
-			0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,2,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,2,2,0,0,0,2,1,1,2,2,2,2,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			1,1,1,1,1,1,2,1,2,1,2,2,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		};
-		//creating a lambda function to take in the state and the texture to then be able to place tiles in the map
-		const auto createObject = [&state](int r, int c, SDL_Texture* tex, ObjectType type) {
-			GameObject o;
-			o.type = type;
-			//subtract tile height from the floor need to subtract to avoid being inverted.
-			o.position = vec2(c * TILE_SIZE,state.logH - (MAP_ROWS - r) * TILE_SIZE);
-			o.texture = tex;
-			o.collider = {
-				.x = 0,
-				.y = 0,
-				.w = TILE_SIZE,
-				.h = TILE_SIZE
-			};
-			return o;
+		short foreground[MAP_COLS][MAP_COLS] = {
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			5,0,0,0,5,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		};
-		//loop through rows and columns
-		for (int r = 0; r < MAP_ROWS; r++) {
-			for (int c = 0; c < MAP_COLS; c++) {
-				switch (map[r][c]) {
-						case 1: {//ground case
-							GameObject o = createObject(r, c, res.texGround, ObjectType::level);
-							gs.layers[LAYER_IDX_LEVEL].push_back(o);
-							break;
-						}
-						case 2: {//Panel case
-							GameObject o = createObject(r, c, res.texPanel, ObjectType::level);
-							gs.layers[LAYER_IDX_LEVEL].push_back(o);
-							break;
-						}
-						case 4: { //player case
-						//create our player object then pushing it into the layers
-						GameObject player = createObject(r,c,res.texIdle, ObjectType::player);
+		short background[MAP_COLS][MAP_COLS] = {
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,6,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+		};
+		const auto loadMap = [&state, &gs, &res](short layer[MAP_ROWS][MAP_COLS]) {
+			//creating a lambda function to take in the state and the texture to then be able to place tiles in the map
+			const auto createObject = [&state](int r, int c, SDL_Texture* tex, ObjectType type) {
+				GameObject o;
+				o.type = type;
+				//subtract tile height from the floor need to subtract to avoid being inverted.
+				o.position = vec2(c * TILE_SIZE, state.logH - (MAP_ROWS - r) * TILE_SIZE);
+				o.texture = tex;
+				o.collider = {
+					.x = 0,
+					.y = 0,
+					.w = TILE_SIZE,
+					.h = TILE_SIZE
+				};
+				return o;
+			};
+			//loop through rows and columns
+			for (int r = 0; r < MAP_ROWS; r++) {
+				for (int c = 0; c < MAP_COLS; c++) {
+					switch (layer[r][c]) {
+					case 1: {//ground case
+						GameObject o = createObject(r, c, res.texGround, ObjectType::level);
+						gs.layers[LAYER_IDX_LEVEL].push_back(o);
+						break;
+					}
+					case 2: {//Panel case
+						GameObject o = createObject(r, c, res.texPanel, ObjectType::level);
+						gs.layers[LAYER_IDX_LEVEL].push_back(o);
+						break;
+					}
+					case 4: { //player case
+					//create our player object then pushing it into the layers
+						GameObject player = createObject(r, c, res.texIdle, ObjectType::player);
 						//set player data in the union to playerdata initialize it with the constructors
 						player.data.player = PlayerData();
 						player.animations = res.playerAnims;
@@ -515,7 +558,7 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 						player.dynamic = true;
 						//may need to play around with these values
 						player.collider = {
-							.x = 11, 
+							.x = 11,
 							.y = 6,
 							.w = 10,
 							.h = 26
@@ -525,9 +568,24 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 
 						break;
 						}
+					case 5: { //grass
+						GameObject o = createObject(r, c, res.texGrass, ObjectType::level);
+						gs.foregroundTiles.push_back(o);
+						break;
+						}
+					case 6: { //brick
+						GameObject o = createObject(r, c, res.texBrick, ObjectType::level);
+						gs.backgroundTiles.push_back(o);
+						break;
+						}
 					}
 				}
 			}
+		};
+		loadMap(map);
+		loadMap(background);
+		loadMap(foreground);
+		
 		//basically to check to make sure the player was actually created
 		assert(gs.playerIndex != -1);
 	}
