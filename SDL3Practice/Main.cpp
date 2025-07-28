@@ -33,10 +33,17 @@ struct GameState {
 	//ccreating an array of vectors of game objects as vectors allow some flexibility but arrays will be constant
 	array<vector<GameObject>, 2> layers;
 	int playerIndex;
-	GameState() {
+	SDL_FRect mapViewport;
+
+	GameState(const SDLState &state) {
 		//represent none
 		playerIndex = -1; //WILL CHANGE WHEN WE LOAD MAPS
-
+		mapViewport = SDL_FRect{
+			.x = 0,
+			.y = 0,
+			.w = static_cast<float>(state.logW),
+			.h = static_cast<float>(state.logH)
+		};
 	}
 
 	GameObject& player() { return layers[LAYER_IDX_CHARACTERS][playerIndex]; }
@@ -105,7 +112,7 @@ int main(int argc, char* argv[]) {
 	Resources res;
 	res.load(state);
 	//setup game data
-	GameState gs;
+	GameState gs(state);
 	createTiles(state, gs, res);
 
 	
@@ -152,6 +159,9 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		
+		//calculate viewport position
+		//generating an x cooredinmate based off the player so that we can center it on the player
+		gs.mapViewport.x = (gs.player().position.x + TILE_SIZE / 2) - gs.mapViewport.w / 2;
 		
 		//perform drawing
 		SDL_SetRenderDrawColor(state.renderer, 20, 10, 30, 255);
@@ -231,7 +241,7 @@ void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float del
 		.h = spriteSize 
 	};
 	SDL_FRect dst{ 
-		.x = obj.position.x,
+		.x = obj.position.x - gs.mapViewport.x,
 		.y = obj.position.y,
 		.w = spriteSize,
 		.h = spriteSize };
@@ -443,9 +453,9 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 		short map[MAP_COLS][MAP_COLS] = {
 			0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,2,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,2,2,0,0,0,2,1,1,2,2,2,2,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			1,1,1,1,1,1,2,1,2,1,2,2,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		};
 		//creating a lambda function to take in the state and the texture to then be able to place tiles in the map
 		const auto createObject = [&state](int r, int c, SDL_Texture* tex, ObjectType type) {
