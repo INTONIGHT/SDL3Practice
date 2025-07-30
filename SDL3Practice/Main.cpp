@@ -59,6 +59,8 @@ struct Resources {
 	const int ANIM_PLAYER_IDLE = 0;
 	const int ANIM_PLAYER_RUN = 1;
 	const int ANIM_PLAYER_SLIDE = 2;
+	const int ANIM_PLAYER_SHOOT = 3;
+	const int ANIM_PLAYER_SLIDE_SHOOT = 4;
 	vector<Animation> playerAnims;
 	const int ANIM_BULLET_MOVING = 0;
 	const int ANIM_BULLET_HIT = 1;
@@ -66,7 +68,8 @@ struct Resources {
 
 	vector<SDL_Texture*> textures;
 	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel, *texSlide,
-		*texBg1, *texBg2, *texBg3, *texBg4, *texBullet, *texBulletHit;
+		*texBg1, *texBg2, *texBg3, *texBg4, *texBullet, *texBulletHit,
+		*texShoot, *texRunShoot, *texSlideShoot;
 
 	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
 		//"data/AnimationSheet_Character.png"
@@ -82,6 +85,8 @@ struct Resources {
 		playerAnims[ANIM_PLAYER_IDLE] = Animation(8, 1.6f);
 		playerAnims[ANIM_PLAYER_RUN] = Animation(4, 0.5f);
 		playerAnims[ANIM_PLAYER_SLIDE] = Animation(1, 1.0f);
+		playerAnims[ANIM_PLAYER_SHOOT] = Animation(4, 0.5f);
+		playerAnims[ANIM_PLAYER_SLIDE_SHOOT] = Animation(4, 0.5f);
 		bulletAnims.resize(2);
 		bulletAnims[ANIM_BULLET_MOVING] = Animation(4, 0.05f);
 		bulletAnims[ANIM_BULLET_HIT] = Animation(4, 0.15f);
@@ -99,6 +104,9 @@ struct Resources {
 		texBg4 = loadTexture(state.renderer, "data/background/bg_layer4.png");
 		texBullet = loadTexture(state.renderer, "data/bullet.png");
 		texBulletHit = loadTexture(state.renderer, "data/bullet_hit.png");
+		texShoot = loadTexture(state.renderer, "data/shoot.png");
+		texRunShoot = loadTexture(state.renderer, "data/shoot_run.png");
+		texSlideShoot = loadTexture(state.renderer, "data/slide_shoot.png");
 
 	}
 	void unload() {
@@ -351,8 +359,13 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		Timer& weaponTimer = obj.data.player.weaponTimer;
 		weaponTimer.step(deltaTime);
 
-		const auto handleShooting = [&state, &gs, &res, &obj, &weaponTimer]() {
+		const auto handleShooting = [&state, &gs, &res, &obj, &weaponTimer](
+			SDL_Texture *tex, SDL_Texture *shootTex, int animIndex, int shootAnimIndex) {
+
 			if (state.keys[SDL_SCANCODE_J]) {
+				//set shooting tex
+				obj.texture = shootTex;
+				obj.currentAnimation = shootAnimIndex;
 				if (weaponTimer.isTimeout()) {
 					weaponTimer.reset();
 				}
@@ -380,6 +393,10 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 					obj.position.y + TILE_SIZE / 2 + 1
 				);
 				gs.bullets.push_back(bullet);
+			}
+			else {
+				obj.texture = tex;
+				obj.currentAnimation = animIndex;
 			}
 		};
 		//player specific data we take the object the data within that and access the player then access the player state
@@ -412,9 +429,9 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 
 			
 			
-			handleShooting();
-			obj.texture = res.texIdle;
-			obj.currentAnimation = res.ANIM_PLAYER_IDLE;
+			handleShooting(res.texIdle,res.texShoot,res.ANIM_PLAYER_IDLE,res.ANIM_PLAYER_SHOOT);
+			//obj.texture = res.texIdle;
+			//obj.currentAnimation = res.ANIM_PLAYER_IDLE;
 			break;
 		}
 		//player state of running
@@ -425,23 +442,22 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 				
 			}
 
-			handleShooting();
+			
 			//moving in opposite direction of velocity, sliding
 			if (obj.velocity.x * obj.direction < 0 &&  obj.grounded) {
-				obj.texture = res.texSlide;
-				obj.currentAnimation = res.ANIM_PLAYER_SLIDE;
+				handleShooting(res.texSlide,res.texSlideShoot,res.ANIM_PLAYER_SLIDE,res.ANIM_PLAYER_SLIDE_SHOOT);
+				
 			}
 			else {
-				obj.texture = res.texRun;
-				obj.currentAnimation = res.ANIM_PLAYER_RUN;
+				handleShooting(res.texRun, res.texRunShoot, res.ANIM_PLAYER_RUN, res.ANIM_PLAYER_RUN);
+				
 			}
 			
 			break;
 			}
 		case PlayerState::jumping: {
-			handleShooting();
-			obj.texture = res.texRun;
-			obj.currentAnimation = res.ANIM_PLAYER_RUN;
+			handleShooting(res.texRun, res.texRunShoot, res.ANIM_PLAYER_RUN, res.ANIM_PLAYER_RUN);
+			
 			break;
 			}
 		}
