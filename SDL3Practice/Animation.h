@@ -16,4 +16,6 @@ public:
 	void step(float deltaTime) {
 		timer.step(deltaTime);
 	}
+
+	bool isDone() const { return timer.isTimeout(); }
 };

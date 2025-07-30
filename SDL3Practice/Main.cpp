@@ -242,7 +242,10 @@ int main(int argc, char* argv[]) {
 
 		//draw bullets
 		for (GameObject& bullet : gs.bullets) {
-			drawObject(state, gs, bullet, bullet.collider.w, bullet.collider.h, deltaTime);
+			if (bullet.data.bullet.state != BulletState::inactive) {
+				drawObject(state, gs, bullet, bullet.collider.w, bullet.collider.h, deltaTime);
+			}
+			
 		}
 		
 		//draw foreground tiles
@@ -390,6 +393,7 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 				}
 				//spawn some bullets
 				GameObject bullet;
+				bullet.data.bullet = BulletData();
 				bullet.type = ObjectType::bullet;
 				bullet.direction = gs.player().direction;
 				bullet.texture = res.texBullet;
@@ -494,13 +498,23 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		}
 	}
 	else if (obj.type == ObjectType::bullet) {
-	if (obj.position.x - gs.mapViewport.x < 0 //left edge
-		|| obj.position.x - gs.mapViewport.x > state.logW || //right edge
-		obj.position.y - gs.mapViewport.y <0 || //top edge
-		obj.position.y -gs.mapViewport.y > state.logH) //bottom edge
-	{ 
-		obj.data.bullet.state = BulletState::inactive;
-	}
+	switch (obj.data.bullet.state) {
+		case BulletState::moving:
+			if (obj.position.x - gs.mapViewport.x < 0 //left edge
+				|| obj.position.x - gs.mapViewport.x > state.logW || //right edge
+				obj.position.y - gs.mapViewport.y <0 || //top edge
+				obj.position.y - gs.mapViewport.y > state.logH) //bottom edge
+			{
+				obj.data.bullet.state = BulletState::inactive;
+			}
+			break;
+		case BulletState::colliding:
+			if (obj.animations[obj.currentAnimation].isDone()) {
+				obj.data.bullet.state = BulletState::inactive;
+			}
+			break;
+		}
+	
 	}
 
 	if (currentDirection) {
@@ -560,42 +574,49 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 void collisionResponse(const SDLState& state, GameState& gs, const Resources& res, 
 	const SDL_FRect &rectA, const SDL_FRect& rectB, const SDL_FRect& rectC, 
 	GameObject& objA, GameObject& objB, float deltaTime) {
-
+	const auto genericResponse = [&]() {
+		if (rectC.w < rectC.h) {
+			//horizontal collision
+			//check if velocity is greater than 0
+			if (objA.velocity.x > 0) {
+				//object must be to the right
+				objA.position.x -= rectC.w;
+			}
+			else if (objA.velocity.x < 0) {
+				objA.position.x += rectC.w;
+			}
+			//set velocity to 0  to stop movement
+			objA.velocity.x = 0;
+		}
+		else {
+			//vertical collision
+			if (objA.velocity.y > 0) {
+				objA.position.y -= rectC.h;//going down
+			}
+			else if (objA.velocity.y < 0) {
+				objA.position.y += rectC.h;//going up
+			}
+			objA.velocity.y = 0;
+		}
+	};
 	//first check the type of object A
 	if (objA.type == ObjectType::player) {
 		//object its colliding with
 		switch (objB.type) {
 		case ObjectType::level: {
-			if (rectC.w < rectC.h) {
-				//horizontal collision
-				//check if velocity is greater than 0
-				if (objA.velocity.x > 0) {
-					//object must be to the right
-					objA.position.x -= rectC.w;
-				}
-				else if(objA.velocity.x < 0){
-					objA.position.x += rectC.w;
-				}
-				//set velocity to 0  to stop movement
-				objA.velocity.x = 0;
-			}
-			else {
-				//vertical collision
-				if (objA.velocity.y > 0) {
-					objA.position.y -= rectC.h;//going down
-				}
-				else if (objA.velocity.y < 0){
-					objA.position.y += rectC.h;//going up
-				}
-				objA.velocity.y = 0;
-			}
+			genericResponse();
 			break;
 			}
 		}
 	}
 	else if (objA.type == ObjectType::bullet) {
 		switch (objA.data.bullet.state) {
-
+			case BulletState::moving :
+				genericResponse();
+				objA.data.bullet.state = BulletState::colliding;
+				objA.texture = res.texBulletHit;
+				objA.currentAnimation = res.ANIM_BULLET_HIT;
+				break;
 		}
 	}
 }
