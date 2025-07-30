@@ -38,6 +38,7 @@ struct GameState {
 	int playerIndex;
 	SDL_FRect mapViewport;
 	float bg2Scroll, bg3Scroll, bg4Scroll;
+	bool debugMode;
 
 	GameState(const SDLState &state) {
 		//represent none
@@ -49,6 +50,7 @@ struct GameState {
 			.h = static_cast<float>(state.logH)
 		};
 		bg2Scroll = bg3Scroll = bg4Scroll = 0;
+		debugMode = false;
 	}
 
 	GameObject& player() { return layers[LAYER_IDX_CHARACTERS][playerIndex]; }
@@ -171,6 +173,9 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_EVENT_KEY_UP:
 				handleKeyInput(state, gs, gs.player(), event.key.scancode, false);
+				if (event.key.scancode == SDL_SCANCODE_F12) {
+					gs.debugMode = !gs.debugMode;
+				}
 				break;
 				
 		}
@@ -251,12 +256,15 @@ int main(int argc, char* argv[]) {
 			SDL_RenderTexture(state.renderer, obj.texture, nullptr, &dst);
 		}
 
-		//display some debug info
-		SDL_SetRenderDrawColor(state.renderer, 255, 255, 255, 255);
-		//need to cast to int then to string so 0,1,2 which will correspond to idle running jumping respectively
-		SDL_RenderDebugText(state.renderer, 5, 5, 
-			format("State: {}, B: {}, G: {}"
-				,static_cast<int>(gs.player().data.player.state), gs.bullets.size(), gs.player().grounded).c_str());
+		if (gs.debugMode) {
+			//display some debug info
+			SDL_SetRenderDrawColor(state.renderer, 255, 255, 255, 255);
+			//need to cast to int then to string so 0,1,2 which will correspond to idle running jumping respectively
+			SDL_RenderDebugText(state.renderer, 5, 5,
+				format("State: {}, B: {}, G: {}"
+					, static_cast<int>(gs.player().data.player.state), gs.bullets.size(), gs.player().grounded).c_str());
+		}
+		
 
 		//swap buffer
 		SDL_RenderPresent(state.renderer);
@@ -335,17 +343,30 @@ void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float wid
 	//using a ternary to determine when it should be flipped
 	SDL_FlipMode flipMode = obj.direction == -1 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 	SDL_RenderTextureRotated(state.renderer, obj.texture, &src, &dst, 0, nullptr, flipMode);
+
+	if (gs.debugMode) {
+		SDL_FRect rectA{
+		.x = obj.position.x + obj.collider.x - gs.mapViewport.x,
+		.y = obj.position.y + obj.collider.y,
+		.w = obj.collider.w,
+		.h = obj.collider.h
+		};
+		SDL_SetRenderDrawBlendMode(state.renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(state.renderer, 255, 0, 0, 150);
+		SDL_RenderFillRect(state.renderer, &rectA);
+		SDL_SetRenderDrawBlendMode(state.renderer, SDL_BLENDMODE_NONE);
+	}
 }
 
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime) {
-	if (obj.dynamic) {
+	if (obj.dynamic && !obj.grounded) {
 		//apply some gravity
 		obj.velocity += vec2(0, 500) * deltaTime;
 	}
-	
+	float currentDirection = 0;
 	//if the object type is the player lets update the player
 	if (obj.type == ObjectType::player) {
-		float currentDirection = 0;
+		
 		//checking if a or d to add or take away 1
 		if (state.keys[SDL_SCANCODE_A]) {
 			currentDirection += -1;
@@ -353,9 +374,7 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		if (state.keys[SDL_SCANCODE_D]) {
 			currentDirection += 1;
 		}
-		if (currentDirection) {
-			obj.direction = currentDirection;
-		}
+		
 		Timer& weaponTimer = obj.data.player.weaponTimer;
 		weaponTimer.step(deltaTime);
 
@@ -382,6 +401,7 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 					.h = static_cast<float>(res.texBullet->h)
 				};
 				bullet.velocity = glm::vec2(obj.velocity.x + 600.0f * obj.direction, 0);
+				bullet.maxSpeedX = 1000.0f;
 				bullet.animations = res.bulletAnims;
 				//adjust bullet start position
 				const float left = 4;
@@ -392,7 +412,18 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 					obj.position.x + xOffset,
 					obj.position.y + TILE_SIZE / 2 + 1
 				);
-				gs.bullets.push_back(bullet);
+				//look for an inactive slot and overwrite with a new bullet
+				bool foundInactive = false;
+				for (int i = 0; i < gs.bullets.size() && !foundInactive; i++) {
+					if (gs.bullets[i].data.bullet.state == BulletState::inactive) {
+						foundInactive = true;
+						gs.bullets[i] = bullet;
+					}
+				}
+				if (!foundInactive) {
+					gs.bullets.push_back(bullet);
+				}
+				
 			}
 			else {
 				obj.texture = tex;
@@ -461,13 +492,25 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 			break;
 			}
 		}
-		//add acceleration to velocity
-		obj.velocity += currentDirection * obj.acceleration * deltaTime;
-		//check to see if the absolute value of x is greater than maxspeed to then cap the speed
-		if (abs(obj.velocity.x) > obj.maxSpeedX) {
-			obj.velocity.x = currentDirection * obj.maxSpeedX;
-		}
-		
+	}
+	else if (obj.type == ObjectType::bullet) {
+	if (obj.position.x - gs.mapViewport.x < 0 //left edge
+		|| obj.position.x - gs.mapViewport.x > state.logW || //right edge
+		obj.position.y - gs.mapViewport.y <0 || //top edge
+		obj.position.y -gs.mapViewport.y > state.logH) //bottom edge
+	{ 
+		obj.data.bullet.state = BulletState::inactive;
+	}
+	}
+
+	if (currentDirection) {
+		obj.direction = currentDirection;
+	}
+	//add acceleration to velocity
+	obj.velocity += currentDirection * obj.acceleration * deltaTime;
+	//check to see if the absolute value of x is greater than maxspeed to then cap the speed
+	if (abs(obj.velocity.x) > obj.maxSpeedX) {
+		obj.velocity.x = currentDirection * obj.maxSpeedX;
 	}
 	//add velocity to positionm
 	obj.position += obj.velocity * deltaTime;
@@ -481,23 +524,27 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		for (GameObject& objB : layer) {
 			if (&obj != &objB) {
 				checkCollision(state, gs, res, obj, objB, deltaTime);
-				//grounded sensor
+				if (objB.type == ObjectType::level) {
+					//grounded sensor
 				//when this hits any object on the ground we know the player has landed
-				SDL_FRect sensor{
-					.x = obj.position.x + obj.collider.x,
-					.y = obj.position.y + obj.collider.y + obj.collider.h,
-					.w = obj.collider.w,
-					.h = 1
-				};
-				SDL_FRect rectB{
-					.x = objB.position.x + objB.collider.x,
-					.y = objB.position.y + objB.collider.y,
-					.w = objB.collider.w,
-					.h = objB.collider.h
-				};
-				if (SDL_HasRectIntersectionFloat(&sensor, &rectB)) {
-					foundGround = true;
+					SDL_FRect sensor{
+						.x = obj.position.x + obj.collider.x,
+						.y = obj.position.y + obj.collider.y + obj.collider.h,
+						.w = obj.collider.w,
+						.h = 1
+					};
+					SDL_FRect rectB{
+						.x = objB.position.x + objB.collider.x,
+						.y = objB.position.y + objB.collider.y,
+						.w = objB.collider.w,
+						.h = objB.collider.h
+					};
+					SDL_FRect rectC{ 0 };
+					if (SDL_GetRectIntersectionFloat(&sensor, &rectB, &rectC)) {
+						foundGround = true;
+					}
 				}
+				
 			}
 		}
 	}
@@ -544,6 +591,11 @@ void collisionResponse(const SDLState& state, GameState& gs, const Resources& re
 			}
 			break;
 			}
+		}
+	}
+	else if (objA.type == ObjectType::bullet) {
+		switch (objA.data.bullet.state) {
+
 		}
 	}
 }
