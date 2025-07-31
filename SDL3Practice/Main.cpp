@@ -197,10 +197,7 @@ int main(int argc, char* argv[]) {
 			for (GameObject& obj : layer) {
 				update(state, gs, res, obj, deltaTime);
 				//update the animation
-				if (obj.currentAnimation != -1) {
-					//this ties the core game loop to animations
-					obj.animations[obj.currentAnimation].step(deltaTime);
-				}
+				
 			}
 		}
 
@@ -208,10 +205,7 @@ int main(int argc, char* argv[]) {
 		for (GameObject& bullet : gs.bullets) {
 			update(state, gs, res, bullet, deltaTime);
 			//update the animation
-			if (bullet.currentAnimation != -1) {
-				//this ties the core game loop to animations
-				bullet.animations[bullet.currentAnimation].step(deltaTime);
-			}
+			
 		}
 		
 		//calculate viewport position
@@ -336,7 +330,8 @@ bool initialize(SDLState& state) {
 void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float width,float height, float deltaTime) {
 	
 	//sees if its animated if it does its going to try to grab the current frame
-	float srcX = obj.currentAnimation != -1 ? obj.animations[obj.currentAnimation].currentFrame() * width : 0.0f;
+	float srcX = obj.currentAnimation != -1 ? obj.animations[obj.currentAnimation].currentFrame() * width 
+		: (obj.spriteFrame - 1) * width;
 	//you can directly instantiate ie srcx,0,sprite size within rect but this looks cleaner
 	SDL_FRect src{ 
 		.x = srcX,
@@ -384,6 +379,11 @@ void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float wid
 }
 
 void update(const SDLState& state, GameState& gs, Resources& res, GameObject& obj, float deltaTime) {
+	//update the animation
+	if (obj.currentAnimation != -1) {
+		//this ties the core game loop to animations
+		obj.animations[obj.currentAnimation].step(deltaTime);
+	}
 	if (obj.dynamic && !obj.grounded) {
 		//apply some gravity
 		obj.velocity += vec2(0, 500) * deltaTime;
@@ -544,12 +544,21 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 	
 	}
 	else if (obj.type == ObjectType::enemy) { //handling the enemy object updates
-	switch (obj.data.enemy.state) {
+	EnemyData &d = obj.data.enemy;
+	switch (d.state) {
 		case EnemyState::damaged :
-			if (obj.data.enemy.damageTimer.step(deltaTime)) {
-				obj.data.enemy.state = EnemyState::shambling;
+			if (d.damageTimer.step(deltaTime)) {
+				d.state = EnemyState::shambling;
 				obj.texture = res.texEnemy;
 				obj.currentAnimation = res.ANIM_ENEMY;
+			}
+			break;
+		case EnemyState::dead:
+			if (obj.currentAnimation != -1 && 
+				obj.animations[obj.currentAnimation].isDone()) {
+				//remove current animation and set it to the last frame
+				obj.currentAnimation = -1;
+				obj.spriteFrame = 18;
 			}
 			break;
 	}
@@ -647,6 +656,7 @@ void collisionResponse(const SDLState& state, GameState& gs, const Resources& re
 		}
 	}
 	else if (objA.type == ObjectType::bullet) {
+		bool passThrough = false;
 		switch (objA.data.bullet.state) {
 			case BulletState::moving :
 				//handling when various objects are hit
@@ -655,26 +665,36 @@ void collisionResponse(const SDLState& state, GameState& gs, const Resources& re
 						break;
 					case ObjectType::enemy:
 						EnemyData &d = objB.data.enemy;
-						objB.direction = -objA.direction;
-						objB.shouldFlash = true;
-						objB.flashTimer.reset();
-						objB.texture = res.texEnemyHit;
-						objB.currentAnimation = res.ANIM_ENEMY_HIT;
-						d.state = EnemyState::damaged;
-						//damage the enemy and flag dead if needed
-						d.healthPoints -= 10;
-						if (d.healthPoints <= 0) {
-							d.state = EnemyState::dead;
-							objB.texture = res.texEnemyDie;
-							objB.currentAnimation = res.ANIM_ENEMY_DIE;
+						if (d.state != EnemyState::dead) {
+							objB.direction = -objA.direction;
+							objB.shouldFlash = true;
+							objB.flashTimer.reset();
+							objB.texture = res.texEnemyHit;
+							objB.currentAnimation = res.ANIM_ENEMY_HIT;
+							d.state = EnemyState::damaged;
+							//damage the enemy and flag dead if needed
+							d.healthPoints -= 10;
+							if (d.healthPoints <= 0) {
+								d.state = EnemyState::dead;
+								objB.texture = res.texEnemyDie;
+								objB.currentAnimation = res.ANIM_ENEMY_DIE;
+							}
 						}
+						else {
+							//dont collide with dead enemies
+							passThrough = true;
+						}
+						
 						break;
 				}
-				genericResponse();
-				objA.velocity *= 0;
-				objA.data.bullet.state = BulletState::colliding;
-				objA.texture = res.texBulletHit;
-				objA.currentAnimation = res.ANIM_BULLET_HIT;
+				if (!passThrough) {
+					genericResponse();
+					objA.velocity *= 0;
+					objA.data.bullet.state = BulletState::colliding;
+					objA.texture = res.texBulletHit;
+					objA.currentAnimation = res.ANIM_BULLET_HIT;
+				}
+				
 				break;
 		}
 	}
@@ -717,7 +737,7 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 		short map[MAP_COLS][MAP_COLS] = {
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,2,2,1,0,0,0,0,0,0,3,2,2,1,0,0,2,1,1,1,2,0,0,0,3,1,1,2,2,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			1,1,1,1,1,1,2,1,2,1,2,2,1,1,1,1,1,1,1,1,1,2,1,1,1,1,2,2,1,2,2,2,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		};

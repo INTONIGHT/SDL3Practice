@@ -66,6 +66,7 @@ struct GameObject {
 	SDL_FRect collider;
 	Timer flashTimer;
 	bool shouldFlash;
+	int spriteFrame;
 
 	GameObject() : data{ .level = LevelData() }, collider{ 0 },flashTimer(0.05f) {
 		data.level = LevelData();
@@ -78,5 +79,6 @@ struct GameObject {
 		dynamic = false;
 		grounded = false;
 		shouldFlash = false;
+		spriteFrame = 1;
 	}
 };
