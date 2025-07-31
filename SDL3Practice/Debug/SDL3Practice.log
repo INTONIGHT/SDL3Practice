@@ -1,7 +1,4 @@
 ﻿  Scanning sources for module dependencies...
-  Timer.h
-  Compiling...
-  Timer.h
   Main.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\corecrt_memory.h(76,5): warning C5105: macro expansion producing 'defined' has undefined behavior
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\ucrt\corecrt_wstring.h(573,5): warning C5105: macro expansion producing 'defined' has undefined behavior

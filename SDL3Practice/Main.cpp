@@ -543,7 +543,17 @@ void update(const SDLState& state, GameState& gs, Resources& res, GameObject& ob
 		}
 	
 	}
-
+	else if (obj.type == ObjectType::enemy) { //handling the enemy object updates
+	switch (obj.data.enemy.state) {
+		case EnemyState::damaged :
+			if (obj.data.enemy.damageTimer.step(deltaTime)) {
+				obj.data.enemy.state = EnemyState::shambling;
+				obj.texture = res.texEnemy;
+				obj.currentAnimation = res.ANIM_ENEMY;
+			}
+			break;
+	}
+	}
 	if (currentDirection) {
 		obj.direction = currentDirection;
 	}
@@ -644,9 +654,20 @@ void collisionResponse(const SDLState& state, GameState& gs, const Resources& re
 					case ObjectType::level:
 						break;
 					case ObjectType::enemy:
+						EnemyData &d = objB.data.enemy;
 						objB.direction = -objA.direction;
 						objB.shouldFlash = true;
 						objB.flashTimer.reset();
+						objB.texture = res.texEnemyHit;
+						objB.currentAnimation = res.ANIM_ENEMY_HIT;
+						d.state = EnemyState::damaged;
+						//damage the enemy and flag dead if needed
+						d.healthPoints -= 10;
+						if (d.healthPoints <= 0) {
+							d.state = EnemyState::dead;
+							objB.texture = res.texEnemyDie;
+							objB.currentAnimation = res.ANIM_ENEMY_DIE;
+						}
 						break;
 				}
 				genericResponse();
@@ -746,6 +767,7 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 					}
 					case 3: {//enemy case
 						GameObject o = createObject(r, c, res.texEnemy, ObjectType::enemy);
+						o.data.enemy = EnemyData();
 						o.currentAnimation = res.ANIM_ENEMY;
 						o.animations = res.enemyAnims;
 						//some arbitrary values for the collider
