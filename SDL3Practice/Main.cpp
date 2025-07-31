@@ -67,11 +67,15 @@ struct Resources {
 	const int ANIM_BULLET_MOVING = 0;
 	const int ANIM_BULLET_HIT = 1;
 	vector<Animation> bulletAnims;
+	const int ANIM_ENEMY = 0;
+	const int ANIM_ENEMY_HIT = 1;
+	const int ANIM_ENEMY_DIE = 2;
+	vector<Animation> enemyAnims;
 
 	vector<SDL_Texture*> textures;
 	SDL_Texture* texIdle, *texRun, *texBrick, *texGrass, *texGround, *texPanel, *texSlide,
 		*texBg1, *texBg2, *texBg3, *texBg4, *texBullet, *texBulletHit,
-		*texShoot, *texRunShoot, *texSlideShoot;
+		*texShoot, *texRunShoot, *texSlideShoot, *texEnemy, *texEnemyDie, *texEnemyHit;
 
 	SDL_Texture* loadTexture(SDL_Renderer *renderer,const string& filepath) {
 		//"data/AnimationSheet_Character.png"
@@ -83,6 +87,7 @@ struct Resources {
 	}
 
 	void load(SDLState& state) {
+		//the animation is number of frames and then time it should last
 		playerAnims.resize(5);
 		playerAnims[ANIM_PLAYER_IDLE] = Animation(8, 1.6f);
 		playerAnims[ANIM_PLAYER_RUN] = Animation(4, 0.5f);
@@ -92,6 +97,10 @@ struct Resources {
 		bulletAnims.resize(2);
 		bulletAnims[ANIM_BULLET_MOVING] = Animation(4, 0.05f);
 		bulletAnims[ANIM_BULLET_HIT] = Animation(4, 0.15f);
+		enemyAnims.resize(3);
+		enemyAnims[ANIM_ENEMY] = Animation(8, 1.0f);
+		enemyAnims[ANIM_ENEMY_HIT] = Animation(8, 1.0f);
+		enemyAnims[ANIM_ENEMY_DIE] = Animation(18, 2.0f);
 
 		texIdle = loadTexture(state.renderer, "data/idle.png");
 		texRun = loadTexture(state.renderer, "data/run.png");
@@ -109,7 +118,9 @@ struct Resources {
 		texShoot = loadTexture(state.renderer, "data/shoot.png");
 		texRunShoot = loadTexture(state.renderer, "data/shoot_run.png");
 		texSlideShoot = loadTexture(state.renderer, "data/slide_shoot.png");
-
+		texEnemy = loadTexture(state.renderer, "data/enemy.png");
+		texEnemyDie = loadTexture(state.renderer, "data/enemy_die.png");
+		texEnemyHit = loadTexture(state.renderer, "data/enemy_hit.png");
 	}
 	void unload() {
 		for (SDL_Texture* tex : textures) {
@@ -345,7 +356,18 @@ void drawObject(const SDLState& state, GameState& gs, GameObject& obj, float wid
 	//takes an angle of rotation, centerpoint as well as direction you want to flip it
 	//using a ternary to determine when it should be flipped
 	SDL_FlipMode flipMode = obj.direction == -1 ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
-	SDL_RenderTextureRotated(state.renderer, obj.texture, &src, &dst, 0, nullptr, flipMode);
+	if (!obj.shouldFlash) {
+		SDL_RenderTextureRotated(state.renderer, obj.texture, &src, &dst, 0, nullptr, flipMode);
+	}
+	else {
+		//red flash
+		SDL_SetTextureColorModFloat(obj.texture, 2.5f, 1.0f, 1.0f);
+		SDL_RenderTextureRotated(state.renderer, obj.texture, &src, &dst, 0, nullptr, flipMode);
+		SDL_SetTextureColorModFloat(obj.texture, 1.0f, 1.0f, 1.0f);
+		if (obj.flashTimer.step(deltaTime)) {
+			obj.shouldFlash = false;
+		}
+	}
 
 	if (gs.debugMode) {
 		SDL_FRect rectA{
@@ -617,6 +639,16 @@ void collisionResponse(const SDLState& state, GameState& gs, const Resources& re
 	else if (objA.type == ObjectType::bullet) {
 		switch (objA.data.bullet.state) {
 			case BulletState::moving :
+				//handling when various objects are hit
+				switch (objB.type) {
+					case ObjectType::level:
+						break;
+					case ObjectType::enemy:
+						objB.direction = -objA.direction;
+						objB.shouldFlash = true;
+						objB.flashTimer.reset();
+						break;
+				}
 				genericResponse();
 				objA.velocity *= 0;
 				objA.data.bullet.state = BulletState::colliding;
@@ -663,10 +695,10 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 		*/
 		short map[MAP_COLS][MAP_COLS] = {
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,0,2,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,2,2,0,0,0,2,1,1,2,2,2,2,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			1,1,1,1,1,1,2,1,2,1,2,2,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,2,2,1,0,0,0,0,0,0,3,2,2,1,0,0,2,1,1,1,2,0,0,0,3,1,1,2,2,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			1,1,1,1,1,1,2,1,2,1,2,2,1,1,1,1,1,1,1,1,1,2,1,1,1,1,2,2,1,2,2,2,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 		};
 		short foreground[MAP_COLS][MAP_COLS] = {
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -710,6 +742,20 @@ void createTiles(const SDLState &state, GameState &gs, const Resources &res)
 					case 2: {//Panel case
 						GameObject o = createObject(r, c, res.texPanel, ObjectType::level);
 						gs.layers[LAYER_IDX_LEVEL].push_back(o);
+						break;
+					}
+					case 3: {//enemy case
+						GameObject o = createObject(r, c, res.texEnemy, ObjectType::enemy);
+						o.currentAnimation = res.ANIM_ENEMY;
+						o.animations = res.enemyAnims;
+						//some arbitrary values for the collider
+						o.collider = SDL_FRect{
+							.x = 10,
+							.y = 4,
+							.w = 12,
+							.h =28
+						};
+						gs.layers[LAYER_IDX_CHARACTERS].push_back(o);
 						break;
 					}
 					case 4: { //player case

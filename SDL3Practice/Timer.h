@@ -7,13 +7,15 @@ public:
 	//this is how they do a constructor
 		Timer(float length): length(length), time(0), timeout(false){}
 
-		void step(float deltaTime) {
+		bool step(float deltaTime) {
 			time += deltaTime;
 			//dont reset to 0
 			if (time >= length) {
 				time -= length;
 				timeout = true;
+				return true;
 			}
+			return false;
 		}
 		bool isTimeout() const { return timeout; }
 		float getTime() const { return time; }
